@@ -4,12 +4,14 @@ import java.util.Objects;
 
 public class Node {
     public int id;
+    public String name;
 
     private ArrayList<Transistion> connectedNodes = new ArrayList<Transistion>();
     private int MaxRandomnummer;
 
-    public Node(int id) {
+    public Node(int id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     public void addConnectie(Transistion t){
@@ -53,7 +55,8 @@ public class Node {
 
     @Override
     public String toString() {
-        return "d"+ id;
+
+        return  name;
     }
 
     public String getChance(){
@@ -70,19 +73,6 @@ public class Node {
         return result;
     }
 
-
-/*
-    //Determines the end condition
-    public String endNode(String s){
-
-        if (Objects.equals(s, "A")){ return getExitA();}
-        else if (Objects.equals(s, "B")){ return getExitB();}
-        else {
-            return null;
-        }
-        return null;
-    }
-*/
 }
 
 
