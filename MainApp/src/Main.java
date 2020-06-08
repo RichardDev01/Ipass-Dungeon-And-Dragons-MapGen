@@ -5,6 +5,7 @@ https://stackoverflow.com/questions/7855387/percentage-of-two-int
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.function.ToDoubleBiFunction;
 
 
 public class Main {
@@ -13,7 +14,8 @@ public class Main {
 
         ArrayList<Node> hallwaylist = new ArrayList<>();
         ArrayList<Node> bigRoomlist = new ArrayList<>();
-        ArrayList<Transistion> transistionlist = new ArrayList<>();
+        ArrayList<Transistion> transistionlistHallway = new ArrayList<>();
+        ArrayList<Transistion> transistionlistBigRoom = new ArrayList<>();
 
         Node hallwayN = new Node(0);
         Node hallwayNO = new Node(1);
@@ -59,29 +61,74 @@ public class Main {
 
         Node endRoom = new Node(30);
 
+        /*
         Scanner sc1 = new Scanner(System.in);
         System.out.println("Maximale Bigrooms?\n(1,2,3,4)");
-        int  aantalBigroom = sc1.nextInt();
+        int  maxGrote = sc1.nextInt();
+         */
+        int  maxGrote = 9;
 
         Scanner sc2 = new Scanner(System.in);
+        System.out.println("Maximale Bigrooms?\n(1,2,3,4)");
+        int  aantalBigroom = sc2.nextInt();
+
+        Scanner sc3 = new Scanner(System.in);
         System.out.println("Welke verhouding van Hallways en Bigrooms wil je?\n(2,4,6,8)");
-        int  aantalHalways = sc2.nextInt()*aantalBigroom;
+        int  aantalHalways = sc3.nextInt()*aantalBigroom;
 
         int  chanceForBigRoom = (aantalBigroom*100)/aantalHalways;
-        //System.out.println(aantalBigroom + "/(" +aantalBigroom+"*"+aantalHalways+")*100" );
         System.out.println(chanceForBigRoom);
 
         int chanceForHalway = 100-chanceForBigRoom;
 
+        int aantalRoomsVerwijderen = bigRoomlist.size() - aantalBigroom;
+
+        //System.out.println(bigRoomlist.size());
+        //System.out.println(bigRoomlist);
+        int randomPop;
+        for (int i = 0; i < aantalRoomsVerwijderen; i++) {
+            randomPop = new Random().nextInt(bigRoomlist.size());
+            //System.out.println("randompop "+randomPop);
+            bigRoomlist.remove(randomPop);
+        }
+        //System.out.println(bigRoomlist.size());
+        //System.out.println(bigRoomlist);
+
+
+
 
         for (var h : hallwaylist){
             Transistion t1 = new Transistion(h,chanceForHalway);
-            transistionlist.add(t1);
+            transistionlistHallway.add(t1);
         }
 
-        for (var t : transistionlist){
-            hallwayN.addConnectie(t);
+        for (var h : hallwaylist){
+            for (var t : transistionlistHallway){
+                h.addConnectie(t);
+            }
+
+
+            //TODO Correcte berekening maken voor bigrooms
+            double chanceForBigRoomDB = chanceForBigRoom/10;
+            //System.out.println(chanceForBigRoomDB);
+            Double chanceDb = h.getSumMaxRandomnummer()/chanceForBigRoomDB;
+            //System.out.println(chanceDb);
+            int chanceint = chanceDb.intValue();
+            for (var b : bigRoomlist){
+                Transistion t1 = new Transistion(b,chanceint);
+                transistionlistBigRoom.add(t1);
+            }
+
+            for (var th : transistionlistBigRoom){
+                h.addConnectie(th);
+            }
+            //System.out.println(h.getSumMaxRandomnummer()*0.25);
+
+
         }
+
+        //TODO Adding a end room
+
         System.out.println(hallwayN.getChance());
         //Create nodes Summatieve Opdracht 2
         Node d0 = new Node(0);
