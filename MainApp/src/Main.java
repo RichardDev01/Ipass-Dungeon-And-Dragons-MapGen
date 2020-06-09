@@ -89,7 +89,7 @@ public class Main {
         int  aantalHalways = snrVerhouding.nextInt()*aantalBigroom;
 
         int  chanceForBigRoom = (aantalBigroom*100)/aantalHalways;
-        System.out.println(chanceForBigRoom);
+        //System.out.println(chanceForBigRoom);
 
         int chanceForHalway = 100-chanceForBigRoom;
 
@@ -143,8 +143,7 @@ public class Main {
             //System.out.println(h.getSumMaxRandomnummer()*0.25);
         }
 
-        //TODO Adding code for bigroom trasistions
-
+        //Adding code for bigroom trasistions
         for (var br : bigRoomlist){
             for (var t : transistionlistHallway){
                 //br.addConnectie(t);
@@ -152,12 +151,12 @@ public class Main {
             }
             //br.addConnectie();
         }
-        //TODO Add chance for Endroom
+        //Adding chance for Endroom
         int endChance = (bigRoomlist.get(0).getSumMaxRandomnummer() + hallwaylist.get(0).getSumMaxRandomnummer())/10;
-        System.out.println(endChance);
+        //System.out.println(endChance);
         Transistion end = new Transistion(endRoom,endChance,30);
 
-        //TODO Adding a end room
+        //Adding a end room
         for (var br : bigRoomlist){
             //br.addConnectie(end);
             bigRoomlist.get(bigRoomlist.indexOf(br)).addConnectie(end);

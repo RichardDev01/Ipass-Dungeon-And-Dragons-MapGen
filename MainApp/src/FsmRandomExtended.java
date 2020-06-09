@@ -34,7 +34,7 @@ public class FsmRandomExtended {
             if (newNode != null) { //if NewNode has a node, make currentNode newNode
 
                 try {
-                    //TODO remove bigrooms from trasistions
+                    //remove bigrooms from trasistions (aanpak is controle op hoeveelheid rooms maar niet remove)
                 if (newNode.id > 19 && newNode.id < 30) {
                     //System.out.println(newNode.name);
                     minBigRooms--;
@@ -80,7 +80,7 @@ public class FsmRandomExtended {
                     e.printStackTrace();
                 }
 
-                //#TODO Minimale aantaal bigRooms (lijkt werkend)
+                //Minimale aantaal bigRooms (lijkt werkend)
                 if (minBigRooms >0 && newNode == endNode){
                    //int connectedNodeslist = currentNode.connectedNodes.size()-(maxBigRooms+1);
                    int connectedNodeslist = new Random().nextInt(currentNode.connectedNodes.size());
