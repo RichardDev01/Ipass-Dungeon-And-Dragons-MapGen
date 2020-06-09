@@ -30,19 +30,7 @@ public class FsmRandomExtended {
 
             Node newNode = currentNode.randomTransistion(randomPath);
 
-            //#TODO Minimale aantaal bigRooms
-            int exitInt = 0;
-            while (minBigRooms >0 && newNode == endNode){
-                newNode = currentNode.randomTransistion(randomPath);
-                exitInt++;
-                if (exitInt ==5){
-                    break;
-                }
-            }
-
             if (newNode != null) { //if NewNode has a node, make currentNode newNode
-
-                currentNode = newNode;
 
                 try {
                     //TODO remove bigrooms from trasistions
@@ -51,9 +39,7 @@ public class FsmRandomExtended {
                     minBigRooms--;
 
                     maxBigRooms--;
-                    if (maxBigRooms ==0){
-                        currentNode = endNode;
-                    }
+
                     //Removal code for trasistion (bugged)
                     /*
                     for (var no : nodes) {
@@ -93,7 +79,25 @@ public class FsmRandomExtended {
                     e.printStackTrace();
                 }
 
+                //#TODO Minimale aantaal bigRooms
+                int exitInt = 0;
+                if (minBigRooms >0 && newNode == endNode){
+                    randomPath = new Random().nextInt(currentNode.getSumMaxRandomnummer()+1);
+                    newNode = currentNode.randomTransistion(randomPath);
+                    exitInt++;
+                    if (exitInt ==5){
+                        break;
+                    }
+                }
 
+
+
+                if (maxBigRooms ==0){
+                    currentNode = endNode;
+                }
+                else {
+                    currentNode = newNode;
+                }
 
             } else {// Else, the end of path has been reached
                 System.out.println("end node = "+currentNode);
