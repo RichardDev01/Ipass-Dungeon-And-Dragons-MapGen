@@ -1,11 +1,12 @@
 public class Transistion {
     public Node n;
     public int chance;
+    public int id;
 
-
-    public Transistion(Node n, int chance) {
+    public Transistion(Node n, int chance, int id) {
         this.n = n;
         this.chance = chance;
+        this.id = id;
     }
 
     public Node getNode() {
@@ -18,6 +19,14 @@ public class Transistion {
 
     public double getChance() {
         return chance;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setChance(int chance) {

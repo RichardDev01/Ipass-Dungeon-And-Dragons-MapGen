@@ -2,6 +2,11 @@
 https://stackoverflow.com/questions/7855387/percentage-of-two-int
  */
 
+
+/*
+Okay, ik denk dat de netste manier om dat te doen is: het aanpassen van de constructor van FsmRandomExtended en de lijsten
+doorgeven vanuit Main (aangenomen dat je specifiek die lijsten al in Main nodig hebt en niet alleen in FsmRandomExtended)
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
@@ -65,19 +70,23 @@ public class Main {
 
 
         /*
-        Scanner sc1 = new Scanner(System.in);
+        Scanner snrMaximaleGrote = new Scanner(System.in);
         System.out.println("Maximale opvervlakte?\n(9,16,25,36)");
-        int  maxGrote = sc1.nextInt();
+        int  maxGrote = snrMaximaleGrote.nextInt();
          */
-        int  maxGrote = 16;
+        int  maxGrote = 36;
 
-        Scanner sc2 = new Scanner(System.in);
+        Scanner snrMinBigRooms = new Scanner(System.in);
+        System.out.println("minimale aantal Bigrooms?\n(0,1,2,3,4) moet minder zijn dan maxaantal");
+        int  aantalMinBigroom = snrMinBigRooms.nextInt();
+
+        Scanner snrMaxBigRooms = new Scanner(System.in);
         System.out.println("Maximale Bigrooms?\n(1,2,3,4)");
-        int  aantalBigroom = sc2.nextInt();
+        int  aantalBigroom = snrMaxBigRooms.nextInt();
 
-        Scanner sc3 = new Scanner(System.in);
+        Scanner snrVerhouding = new Scanner(System.in);
         System.out.println("Welke verhouding van Hallways en Bigrooms wil je?\n(2,4,6,8)");
-        int  aantalHalways = sc3.nextInt()*aantalBigroom;
+        int  aantalHalways = snrVerhouding.nextInt()*aantalBigroom;
 
         int  chanceForBigRoom = (aantalBigroom*100)/aantalHalways;
         System.out.println(chanceForBigRoom);
@@ -98,23 +107,20 @@ public class Main {
         //System.out.println(bigRoomlist);
 
 
-
-
         //creating hallway list
+        int counterHalway =0;
         for (var h : hallwaylist){
-            Transistion t1 = new Transistion(h,chanceForHalway);
+            Transistion t1 = new Transistion(h,chanceForHalway,counterHalway);
             transistionlistHallway.add(t1);
-        }
-
-        //StartNode adding hallways
-        for (var t : transistionlistHallway){
-            startRoom.addConnectie(t);
+            counterHalway++;
         }
 
         //adding hallways to hallways
+        int counterBigroom = 20;
         for (var h : hallwaylist){
             for (var t : transistionlistHallway){
-                h.addConnectie(t);
+                //h.addConnectie(t);
+                hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
             }
 
             //TODO Correcte berekening maken voor bigrooms
@@ -124,12 +130,15 @@ public class Main {
             //System.out.println(chanceDb);
             int chanceint = chanceDb.intValue();
             for (var b : bigRoomlist){
-                Transistion t1 = new Transistion(b,chanceint);
+                Transistion t1 = new Transistion(b,chanceint,counterBigroom);
                 transistionlistBigRoom.add(t1);
+                //bigRoomlist.get(bigRoomlist.indexOf(b)).addConnectie(t1);
+                counterBigroom++;
             }
 
             for (var th : transistionlistBigRoom){
-                h.addConnectie(th);
+                //h.addConnectie(th);
+                hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(th);
             }
             //System.out.println(h.getSumMaxRandomnummer()*0.25);
         }
@@ -138,25 +147,34 @@ public class Main {
 
         for (var br : bigRoomlist){
             for (var t : transistionlistHallway){
-                br.addConnectie(t);
+                //br.addConnectie(t);
+                bigRoomlist.get(bigRoomlist.indexOf(br)).addConnectie(t);
             }
             //br.addConnectie();
         }
         //TODO Add chance for Endroom
         int endChance = (bigRoomlist.get(0).getSumMaxRandomnummer() + hallwaylist.get(0).getSumMaxRandomnummer())/10;
         System.out.println(endChance);
-        Transistion end = new Transistion(endRoom,endChance);
+        Transistion end = new Transistion(endRoom,endChance,30);
 
         //TODO Adding a end room
         for (var br : bigRoomlist){
-            br.addConnectie(end);
+            //br.addConnectie(end);
+            bigRoomlist.get(bigRoomlist.indexOf(br)).addConnectie(end);
         }
 
+        //StartNode adding hallways
+        for (var t : transistionlistHallway){
+            startRoom.addConnectie(t);
+        }
+
+        ArrayList<Node> allNodes = new ArrayList<Node>(bigRoomlist);
+        allNodes.addAll(hallwaylist);
 
         System.out.println(hallwaylist.get(0).getChance());
         System.out.println(bigRoomlist.get(0).getChance());
-        FsmRandomExtended fsmR2 = new FsmRandomExtended();
-        fsmR2.run(startRoom,maxGrote);
+        FsmRandomExtended fsmR2 = new FsmRandomExtended(allNodes,aantalBigroom,aantalMinBigroom);
+        fsmR2.run(startRoom,maxGrote,endRoom);
 
     }
 }

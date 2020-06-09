@@ -1,12 +1,12 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Objects;
+
 
 public class Node {
     public int id;
     public String name;
 
-    private ArrayList<Transistion> connectedNodes = new ArrayList<Transistion>();
+    public ArrayList<Transistion> connectedNodes = new ArrayList<Transistion>();
     private int MaxRandomnummer;
 
     public Node(int id, String name) {
@@ -55,7 +55,6 @@ public class Node {
 
     @Override
     public String toString() {
-
         return  name;
     }
 
