@@ -2,22 +2,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FsmRandomExtended {
-    private List<Node> nodes = new ArrayList<Node>();  // Array of all nodes.
-    private List<Node> pathTakenThroughFSM = new ArrayList<Node>();   // Array of path through all nodes.
-    private List<Character> transistiesCases = new ArrayList<Character>(); // Array of all trasisties events
+public class RandomMapGen {
+    private List<Node> nodes = new ArrayList<>();  // Array of all nodes.
+    private List<Node> pathTakenThroughFSM = new ArrayList<>();   // Array of path through all nodes.
+    private List<Character> transistiesCases = new ArrayList<>(); // Array of all trasisties events
     private int randomPath;     // int range from 0-1 for 50% change to go A or B
     private int randomMinRoom;
-    private int maxBigRooms;
-    private int minBigRooms;
+    private int maxBigRooms;    //int for max big rooms
+    private int minBigRooms;    //int for min big rooms
 
-    public FsmRandomExtended(List<Node> nodes, int maxBigRooms, int minBigRooms) {
+    public RandomMapGen(List<Node> nodes, int maxBigRooms, int minBigRooms) {
         this.nodes = nodes;
         this.maxBigRooms = maxBigRooms;
         this.minBigRooms = minBigRooms;
     }
 
-    public FsmRandomExtended() {
+    public RandomMapGen() {
     }
 
     public void run(Node startNode,int maxLength, Node endNode) {
@@ -38,7 +38,6 @@ public class FsmRandomExtended {
                 if (newNode.id > 19 && newNode.id < 30) {
                     //System.out.println(newNode.name);
                     minBigRooms--;
-
                     maxBigRooms--;
 
                     //Removal code for trasistion (bugged)
@@ -80,13 +79,15 @@ public class FsmRandomExtended {
                     e.printStackTrace();
                 }
 
-                //Minimale aantaal bigRooms (lijkt werkend)
+                //Minimale aantal bigRooms (lijkt werkend)
                 if (minBigRooms >0 && newNode == endNode){
                    //int connectedNodeslist = currentNode.connectedNodes.size()-(maxBigRooms+1);
                    int connectedNodeslist = new Random().nextInt(currentNode.connectedNodes.size());
                    //randomMinRoom = new Random().nextInt(connectedNodeslist+2);
                    newNode = currentNode.connectedNodes.get(connectedNodeslist).n;
                 }
+
+                //Oude code voor minimale aantal bigrooms
                 /*
                 int exitInt = 0;
                 if (minBigRooms >0 && newNode == endNode){
@@ -98,9 +99,6 @@ public class FsmRandomExtended {
                     }
                 }
 */
-
-
-
                 if (maxBigRooms ==0){
                     currentNode = endNode;
                 }
@@ -109,7 +107,7 @@ public class FsmRandomExtended {
                 }
 
             } else {// Else, the end of path has been reached
-                System.out.println("end node = "+currentNode);
+                //System.out.println("end node = "+currentNode);  //oude code
                 break; //Exit while loop because the end of path has been reached
             }
 
@@ -121,8 +119,10 @@ public class FsmRandomExtended {
                 System.out.println("Maximum pathlenth is reached"); // Debug
             }
         }
+        if (pathTakenThroughFSM.get(pathTakenThroughFSM.size()-1)!= endNode){
+            pathTakenThroughFSM.add(endNode);
+        }
+
         System.out.println("Nodes: " + pathTakenThroughFSM); // Print pathTakenThroughFSM
     }
-
-
 }

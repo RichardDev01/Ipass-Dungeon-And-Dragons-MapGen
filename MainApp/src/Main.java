@@ -10,7 +10,6 @@ doorgeven vanuit Main (aangenomen dat je specifiek die lijsten al in Main nodig 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
-import java.util.function.ToDoubleBiFunction;
 
 
 public class Main {
@@ -72,9 +71,9 @@ public class Main {
         /*
         Scanner snrMaximaleGrote = new Scanner(System.in);
         System.out.println("Maximale opvervlakte?\n(9,16,25,36)");
-        int  maxGrote = snrMaximaleGrote.nextInt();
+        int  maxGroteTilesAantal = snrMaximaleGrote.nextInt();
          */
-        int  maxGrote = 100;
+        int  maxGroteTilesAantal = 100;
 
         Scanner snrMinBigRooms = new Scanner(System.in);
         System.out.println("minimale aantal Bigrooms?\n(0,1,2,3,4) moet minder zijn dan maxaantal");
@@ -167,13 +166,13 @@ public class Main {
             startRoom.addConnectie(t);
         }
 
-        ArrayList<Node> allNodes = new ArrayList<Node>(bigRoomlist);
+        ArrayList<Node> allNodes = new ArrayList<>(bigRoomlist);
         allNodes.addAll(hallwaylist);
 
         System.out.println(hallwaylist.get(0).getChance());
         System.out.println(bigRoomlist.get(0).getChance());
-        FsmRandomExtended fsmR2 = new FsmRandomExtended(allNodes,aantalBigroom,aantalMinBigroom);
-        fsmR2.run(startRoom,maxGrote,endRoom);
+        RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+        fsmR2.run(startRoom,maxGroteTilesAantal,endRoom);
 
     }
 }
