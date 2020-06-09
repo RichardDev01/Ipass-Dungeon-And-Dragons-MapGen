@@ -7,6 +7,7 @@ public class FsmRandomExtended {
     private List<Node> pathTakenThroughFSM = new ArrayList<Node>();   // Array of path through all nodes.
     private List<Character> transistiesCases = new ArrayList<Character>(); // Array of all trasisties events
     private int randomPath;     // int range from 0-1 for 50% change to go A or B
+    private int randomMinRoom;
     private int maxBigRooms;
     private int minBigRooms;
 
@@ -79,7 +80,14 @@ public class FsmRandomExtended {
                     e.printStackTrace();
                 }
 
-                //#TODO Minimale aantaal bigRooms
+                //#TODO Minimale aantaal bigRooms (lijkt werkend)
+                if (minBigRooms >0 && newNode == endNode){
+                   //int connectedNodeslist = currentNode.connectedNodes.size()-(maxBigRooms+1);
+                   int connectedNodeslist = new Random().nextInt(currentNode.connectedNodes.size());
+                   //randomMinRoom = new Random().nextInt(connectedNodeslist+2);
+                   newNode = currentNode.connectedNodes.get(connectedNodeslist).n;
+                }
+                /*
                 int exitInt = 0;
                 if (minBigRooms >0 && newNode == endNode){
                     randomPath = new Random().nextInt(currentNode.getSumMaxRandomnummer()+1);
@@ -89,6 +97,7 @@ public class FsmRandomExtended {
                         break;
                     }
                 }
+*/
 
 
 

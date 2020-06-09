@@ -74,7 +74,7 @@ public class Main {
         System.out.println("Maximale opvervlakte?\n(9,16,25,36)");
         int  maxGrote = snrMaximaleGrote.nextInt();
          */
-        int  maxGrote = 36;
+        int  maxGrote = 100;
 
         Scanner snrMinBigRooms = new Scanner(System.in);
         System.out.println("minimale aantal Bigrooms?\n(0,1,2,3,4) moet minder zijn dan maxaantal");
