@@ -17,9 +17,6 @@ public class RandomMapGen {
         this.minBigRooms = minBigRooms;
     }
 
-    public RandomMapGen() {
-    }
-
     public void run(Node startNode,int maxLength, Node endNode) {
         Node currentNode = startNode;               //Set startNode
         pathTakenThroughFSM.add(currentNode);      //Add the starting node to list
@@ -27,12 +24,11 @@ public class RandomMapGen {
         int i = 0;
         while (i  < maxLength) {                    //Maximum Trasisties that can happen
             char ch;
-            randomPath = new Random().nextInt(currentNode.getSumMaxRandomnummer()+1); // genarate 0-maxSum van kansen aka, flexibele kans "0-21 or 0-4"
+            randomPath = new Random().nextInt(currentNode.getSumMaxRandomnummer()+1); // generate 0-maxSum van kansen aka, flexibele kans "0-21 or 0-4"
 
             Node newNode = currentNode.randomTransistion(randomPath);
 
             if (newNode != null) { //if NewNode has a node, make currentNode newNode
-
                 try {
                     //remove bigrooms from trasistions (aanpak is controle op hoeveelheid rooms maar niet remove)
                 if (newNode.id > 19 && newNode.id < 30) {
@@ -122,7 +118,6 @@ public class RandomMapGen {
         if (pathTakenThroughFSM.get(pathTakenThroughFSM.size()-1)!= endNode){
             pathTakenThroughFSM.add(endNode);
         }
-
         System.out.println("Nodes: " + pathTakenThroughFSM); // Print pathTakenThroughFSM
     }
 }

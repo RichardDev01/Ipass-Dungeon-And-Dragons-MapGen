@@ -23,7 +23,6 @@ public class Node {
         MaxRandomnummer =0;
         for(var transistion : connectedNodes)
         {
-
             MaxRandomnummer += transistion.getChance();
         }
         return MaxRandomnummer;

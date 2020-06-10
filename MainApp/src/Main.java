@@ -16,11 +16,13 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Creating array list for nodes and transistions
         ArrayList<Node> hallwaylist = new ArrayList<>();
         ArrayList<Node> bigRoomlist = new ArrayList<>();
         ArrayList<Transistion> transistionlistHallway = new ArrayList<>();
         ArrayList<Transistion> transistionlistBigRoom = new ArrayList<>();
 
+        //Creating Nodes (tilessets)
         Node hallwayN = new Node(0,"hallwayN");
         Node hallwayNO = new Node(1,"hallwayNO");
         Node hallwayNZ = new Node(2,"hallwayNZ");
@@ -37,6 +39,7 @@ public class Main {
         Node hallwayZW = new Node(13,"hallwayZW");
         Node hallwayW = new Node(14,"hallwayW");
 
+        //Adding hallways to list
         hallwaylist.add(hallwayN);
         hallwaylist.add(hallwayNO);
         hallwaylist.add(hallwayNZ);
@@ -53,20 +56,24 @@ public class Main {
         hallwaylist.add(hallwayZW);
         hallwaylist.add(hallwayW);
 
+        //Creating Nodes (tilessets)
         Node bigRoom1 = new Node(20,"bigRoom1");
         Node bigRoom2 = new Node(21,"bigRoom2");
         Node bigRoom3 = new Node(22,"bigRoom3");
         Node bigRoom4 = new Node(23,"bigRoom4");
 
+        //Adding bigrooms to list
         bigRoomlist.add(bigRoom1);
         bigRoomlist.add(bigRoom2);
         bigRoomlist.add(bigRoom3);
         bigRoomlist.add(bigRoom4);
 
+        //Creating Start and Endroom
         Node endRoom = new Node(30,"endRoom");
         Node startRoom = new Node(31,"startRoom");
 
 
+        //User input stage ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         /*
         Scanner snrMaximaleGrote = new Scanner(System.in);
@@ -92,18 +99,19 @@ public class Main {
 
         int chanceForHalway = 100-chanceForBigRoom;
 
-        int aantalRoomsVerwijderen = bigRoomlist.size() - aantalBigroom;
 
-        //System.out.println(bigRoomlist.size());
-        //System.out.println(bigRoomlist);
+        // Mogelijk obsalite code voor later omdat ik nu controleer hoeveel rooms ik gehad heb
+        // Remove excess bigrooms
+        int aantalRoomsVerwijderen = bigRoomlist.size() - aantalBigroom;
         int randomPop;
         for (int i = 0; i < aantalRoomsVerwijderen; i++) {
             randomPop = new Random().nextInt(bigRoomlist.size());
             //System.out.println("randompop "+randomPop);
             bigRoomlist.remove(randomPop);
         }
-        //System.out.println(bigRoomlist.size());
-        //System.out.println(bigRoomlist);
+
+
+
 
 
         //creating hallway list
@@ -117,10 +125,11 @@ public class Main {
         //adding hallways to hallways
         int counterBigroom = 20;
         for (var h : hallwaylist){
+            //adding hallways to hallways
             for (var t : transistionlistHallway){
-                //h.addConnectie(t);
                 hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
             }
+
 
             //TODO Correcte berekening maken voor bigrooms
             double chanceForBigRoomDB = chanceForBigRoom/10;
@@ -166,11 +175,15 @@ public class Main {
             startRoom.addConnectie(t);
         }
 
+        //Create 1 list with all nodes
         ArrayList<Node> allNodes = new ArrayList<>(bigRoomlist);
         allNodes.addAll(hallwaylist);
 
-        System.out.println(hallwaylist.get(0).getChance());
-        System.out.println(bigRoomlist.get(0).getChance());
+        //Debug strings
+        //System.out.println(hallwaylist.get(0).getChance());
+        //System.out.println(bigRoomlist.get(0).getChance());
+
+        //Creating the generator
         RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
         fsmR2.run(startRoom,maxGroteTilesAantal,endRoom);
 
