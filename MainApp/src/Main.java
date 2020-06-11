@@ -21,6 +21,7 @@ public class Main {
 
         //Creating array list for nodes and transistions
         ArrayList<Node> hallwaylist = new ArrayList<>();
+        ArrayList<Node> hallwayEndlist = new ArrayList<>();
         ArrayList<Node> bigRoomlist = new ArrayList<>();
         ArrayList<Transistion> transistionlistHallway = new ArrayList<>();
         ArrayList<Transistion> transistionlistBigRoom = new ArrayList<>();
@@ -43,7 +44,7 @@ public class Main {
         Node hallwayW = new Node(14,"hallwayW");
 
         //Adding hallways to list
-        hallwaylist.add(hallwayN);
+        //hallwaylist.add(hallwayN);
         hallwaylist.add(hallwayNO);
         hallwaylist.add(hallwayNZ);
         hallwaylist.add(hallwayNW);
@@ -51,13 +52,18 @@ public class Main {
         hallwaylist.add(hallwayNOW);
         hallwaylist.add(hallwayNOZW);
         hallwaylist.add(hallwayNZW);
-        hallwaylist.add(hallwayO);
+        //hallwaylist.add(hallwayO);
         hallwaylist.add(hallwayOZ);
         hallwaylist.add(hallwayOW);
         hallwaylist.add(hallwayOZW);
-        hallwaylist.add(hallwayZ);
+        //hallwaylist.add(hallwayZ);
         hallwaylist.add(hallwayZW);
-        hallwaylist.add(hallwayW);
+        //hallwaylist.add(hallwayW);
+
+        hallwayEndlist.add(hallwayN);
+        hallwayEndlist.add(hallwayO);
+        hallwayEndlist.add(hallwayZ);
+        hallwayEndlist.add(hallwayW);
 
         //Creating Nodes (tilessets)
         Node bigRoom1 = new Node(20,"bigRoom1");
@@ -125,12 +131,34 @@ public class Main {
             counterHalway++;
         }
 
+        //Deze 2 for loops aanpassen
         //adding hallways to hallways
         int counterBigroom = 20;
         for (var h : hallwaylist){
             //adding hallways to hallways
             for (var t : transistionlistHallway){
-                hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
+                if (h.name.contains("Z") && t.n.name.contains("N")){
+                    hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
+                    continue;
+                }
+                if(h.name.contains("O") && t.n.name.contains("W")){
+                    hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
+                    continue;
+                }
+                //Van West naar Oost rekenen, dus niet terug
+                /*
+                if(h.name.contains("W") && t.n.name.contains("O")){
+                    hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
+                    continue;
+                }
+                 */
+                if(h.name.contains("N") && t.n.name.contains("Z")){
+                    hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
+                    continue;
+                }
+                //hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
+                //t.n.name.contains("o");
+                //h.name.contains("o");
             }
 
 
@@ -140,6 +168,7 @@ public class Main {
             Double chanceDb = h.getSumMaxRandomnummer()/chanceForBigRoomDB;
             //System.out.println(chanceDb);
             int chanceint = chanceDb.intValue();
+            chanceint = 100;
             for (var b : bigRoomlist){
                 Transistion t1 = new Transistion(b,chanceint,counterBigroom);
                 transistionlistBigRoom.add(t1);
@@ -175,12 +204,16 @@ public class Main {
 
         //StartNode adding hallways
         for (var t : transistionlistHallway){
-            startRoom.addConnectie(t);
+            if(t.n.name.contains("W")){
+                startRoom.addConnectie(t);
+            }
+
         }
 
         //Create 1 list with all nodes
         ArrayList<Node> allNodes = new ArrayList<>(bigRoomlist);
         allNodes.addAll(hallwaylist);
+        allNodes.addAll(hallwayEndlist);
 
         //Debug strings
         //System.out.println(hallwaylist.get(0).getChance());
