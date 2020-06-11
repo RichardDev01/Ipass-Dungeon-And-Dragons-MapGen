@@ -36,11 +36,18 @@ public class DrawMap {
         images.add(s);
     }
 
-    public void run() throws IOException {
+    public void run() {
         int x =0;
         int y =0;
+        System.out.println(images);
         for(String image : images){
-            BufferedImage bi = ImageIO.read(new File(image));
+            System.out.println(image);
+            BufferedImage bi = null;
+            try {
+                bi = ImageIO.read(new File(image));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             g.drawImage(bi, x, y, null);
             x += 256;
             if(x > result.getWidth()){
@@ -48,7 +55,11 @@ public class DrawMap {
                 y += bi.getHeight();
             }
         }
-        ImageIO.write(result,"png",new File("result.png"));
+        try {
+            ImageIO.write(result,"png",new File("result.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
