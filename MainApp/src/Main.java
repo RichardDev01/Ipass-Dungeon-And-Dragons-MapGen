@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
+//#TODO Correcte halway connections maken
+//#TODO Drawing uitzoeken
+//#TODO Drawing algoritme maken
 
 public class Main {
 
@@ -30,7 +33,7 @@ public class Main {
         Node hallwayNOZ = new Node(4,"hallwayNOZ");
         Node hallwayNOW = new Node(5,"hallwayNOW");
         Node hallwayNOZW = new Node(6,"hallwayNOZW");
-        Node hallwayNWZ = new Node(7,"hallwayNWZ");
+        Node hallwayNZW = new Node(7,"hallwayNZW");
         Node hallwayO = new Node(8,"hallwayO");
         Node hallwayOZ = new Node(9,"hallwayOZ");
         Node hallwayOW = new Node(10,"hallwayOW");
@@ -47,7 +50,7 @@ public class Main {
         hallwaylist.add(hallwayNOZ);
         hallwaylist.add(hallwayNOW);
         hallwaylist.add(hallwayNOZW);
-        hallwaylist.add(hallwayNWZ);
+        hallwaylist.add(hallwayNZW);
         hallwaylist.add(hallwayO);
         hallwaylist.add(hallwayOZ);
         hallwaylist.add(hallwayOW);
