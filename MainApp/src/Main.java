@@ -223,8 +223,9 @@ public class Main {
         RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
 
         DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
-        dm1.addImages("/src/Resources/Default/StartRoom/StartRoom.png");
-        dm1.addImages("/src/Resources/Default/StartRoom/StartRoom.png");
+        dm1.nodesToString();
+        //dm1.addImages("./Resources/Default/StartRoom/StartRoom.png");
+        //dm1.addImages("./Resources/Default/StartRoom/StartRoom.png");
         dm1.run();
     }
 }

@@ -22,8 +22,8 @@ import java.util.List;
 public class DrawMap {
 
     private List<Node> wayToTheEndRoom = new ArrayList<>();  // Array of all nodes.
-    private int width = 2000;
-    private int height = 2000;
+    private int width = 8000;
+    private int height = 8000;
     public  List<String> images= new ArrayList<>();
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = result.getGraphics();
@@ -36,23 +36,82 @@ public class DrawMap {
         images.add(s);
     }
 
-    public void run() {
-        int x =0;
-        int y =0;
+    public void nodesToString(){
+        for(var node : wayToTheEndRoom){
+            if (node.name.contains("startRoom")){
+                images.add("./Resources/Default/"+node.name+"/"+node.name+".png");
+            }
+            if (node.name.contains("hallway")) {
+                images.add("./Resources/Default/Hallways/"+node.name+"/"+node.name+".png");
+            }
+            if (node.name.contains("bigRoom")){
+                images.add("./Resources/Default/Bigrooms/"+node.name+"/"+node.name+".png");
+            }
+            if (node.name.contains("endRoom")){
+                images.add("./Resources/Default/"+node.name+"s/"+node.name+".png");
+            }
+
+        }
         System.out.println(images);
+    }
+
+    public void run() {
+        int x =300;
+        int y =1600;
+        System.out.println(images);
+        int index = 0;
         for(String image : images){
+
+            index++;
             System.out.println(image);
             BufferedImage bi = null;
+            BufferedImage biLast = null;
             try {
                 bi = ImageIO.read(new File(image));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            if(index == 1 ||index == 2 ){
+                g.drawImage(bi, x, y, null);
+                x += bi.getTileWidth();
+                continue;
+            }
+            if(image.contains("bigRoom")){
+                String previous = images.get(index-2);
+                try {
+                    biLast = ImageIO.read(new File(previous));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (previous.contains("O")){
+                    g.drawImage(bi, x, y-biLast.getHeight(), null);
+                    x += bi.getTileWidth();
+                    y = bi.getHeight();
+                    continue;
+                }
+                else if (previous.contains("Z")){
+                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    x += biLast.getTileWidth();
+                    y += bi.getHeight();
+                    continue;
+                }
+                else if (previous.contains("N")){
+                    g.drawImage(bi, x-biLast.getTileWidth()*2, y-biLast.getTileHeight()*2, null);
+                    //x += bi.getTileWidth();
+                    y += bi.getHeight();
+                    continue;
+                }
+
+            }
             g.drawImage(bi, x, y, null);
-            x += 256;
+            y = bi.getTileHeight();
+            x += bi.getTileWidth();
+
+            //code om van rand teresetten
             if(x > result.getWidth()){
                 x = 0;
-                y += bi.getHeight();
+                y += bi.getTileHeight();
             }
         }
         try {
@@ -60,6 +119,7 @@ public class DrawMap {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 }
