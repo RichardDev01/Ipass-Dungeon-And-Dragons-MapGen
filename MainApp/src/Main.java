@@ -221,7 +221,9 @@ public class Main {
 
         //Creating the generator
         RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
-        fsmR2.run(startRoom,maxGroteTilesAantal,endRoom);
 
+        DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
+        dm1.addImages("C:\\Users\\Carver\\IdeaProjects\\Ipass\\Resources\\Default\\StartRoom.png");
+        dm1.addImages("C:\\Users\\Carver\\IdeaProjects\\Ipass\\Resources\\Default\\StartRoom.png");
     }
 }

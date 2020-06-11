@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Node {
     public int id;
     public String name;
-
     public ArrayList<Transistion> connectedNodes = new ArrayList<Transistion>();
     private int MaxRandomnummer;
 

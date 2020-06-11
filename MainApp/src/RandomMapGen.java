@@ -17,7 +17,7 @@ public class RandomMapGen {
         this.minBigRooms = minBigRooms;
     }
 
-    public void run(Node startNode,int maxLength, Node endNode) {
+    public List<Node> run(Node startNode,int maxLength, Node endNode) {
         Node currentNode = startNode;               //Set startNode
         pathTakenThroughFSM.add(currentNode);      //Add the starting node to list
 
@@ -119,5 +119,6 @@ public class RandomMapGen {
             pathTakenThroughFSM.add(endNode);
         }
         System.out.println("Nodes: " + pathTakenThroughFSM); // Print pathTakenThroughFSM
+        return pathTakenThroughFSM;
     }
 }
