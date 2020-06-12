@@ -6,10 +6,11 @@ https://docs.oracle.com/javase/tutorial/2d/images/drawonimage.html
 https://www.javamex.com/tutorials/graphics/bufferedimage.shtml
  */
 
-//#TODO een aantal images aan elkaar krijgen (Rechte lijn)
+
 //#TODO Logica in het aan elkaar plakken
 //#TODO Mogelijk croppen
 //#TODO Uitlezen van pixels om deadends toe tevoegen
+//#TODO Check voor valid space voor tile
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -77,6 +78,8 @@ public class DrawMap {
                 x += bi.getTileWidth();
                 continue;
             }
+
+            //Code for bigroom placement
             if(image.contains("bigRoom")){
                 String previous = images.get(index-2);
                 try {
@@ -87,25 +90,92 @@ public class DrawMap {
                 if (previous.contains("O")){
                     g.drawImage(bi, x, y-biLast.getHeight(), null);
                     x += bi.getTileWidth();
-                    y = bi.getHeight();
+                    y -= biLast.getHeight();
                     continue;
                 }
                 else if (previous.contains("Z")){
-                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
-                    x += biLast.getTileWidth();
-                    y += bi.getHeight();
+                    g.drawImage(bi, x-biLast.getTileWidth()*2, y+biLast.getTileHeight(), null);
+                    //x -= biLast.getTileWidth()*2;
+                    y += biLast.getHeight();
                     continue;
                 }
                 else if (previous.contains("N")){
                     g.drawImage(bi, x-biLast.getTileWidth()*2, y-biLast.getTileHeight()*2, null);
                     //x += bi.getTileWidth();
+                    y -= bi.getHeight();
+                    continue;
+                }
+            }
+
+            if(image.contains("hallway")){
+                String previous = images.get(index-2);
+                try {
+                    biLast = ImageIO.read(new File(previous));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (previous.contains("bigRoom") && image.contains("hallwayOZ") && (image.contains("W")==false)){
+                    g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
+                    //x += biLast.getTileWidth();
+                    y -= bi.getHeight();
+                    continue;
+                }
+                if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&&(image.contains("W")==false)){
+                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    //x += bi.getTileWidth();
+                    y += biLast.getHeight();
+                    continue;
+                }
+
+                if (previous.contains("bigRoom") && image.contains("hallwayNO")&&(image.contains("W")==false) &&(image.contains("Z")==false)){
+                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    //x += bi.getTileWidth();
+                    y += biLast.getHeight();
+                    continue;
+                }
+
+                if((image.contains("W")==false) && previous.contains("Z")){
+                    g.drawImage(bi, x-bi.getTileWidth(), y+bi.getTileHeight(), null);
+                    //x += biLast.getTileWidth();
                     y += bi.getHeight();
                     continue;
                 }
 
+
+
+                if (previous.contains("O")){
+                    g.drawImage(bi, x, y, null);
+                    x += bi.getTileWidth();
+                    //y -= biLast.getHeight();
+                    continue;
+                }
+                else if (previous.contains("Z")){
+                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    //x += biLast.getTileWidth();
+                    y += bi.getHeight();
+                    continue;
+                }
+                else if (previous.contains("N")){
+                    g.drawImage(bi, x-biLast.getTileWidth(), y-biLast.getTileHeight(), null);
+                    //x += bi.getTileWidth();
+                    y -= bi.getHeight();
+                    continue;
+                }
             }
+            /*
+            if(image.contains("endRoom")){
+
+                g.drawImage(bi, x-biLast.getTileWidth(), y-biLast.getTileHeight(), null);
+                //x += bi.getTileWidth();
+                //y -= bi.getHeight();
+                continue;
+            }
+
+             */
+
             g.drawImage(bi, x, y, null);
-            y = bi.getTileHeight();
+            //y = bi.getTileHeight();
             x += bi.getTileWidth();
 
             //code om van rand teresetten
