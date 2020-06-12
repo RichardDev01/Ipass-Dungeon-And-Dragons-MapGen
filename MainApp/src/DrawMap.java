@@ -9,7 +9,7 @@ https://www.javamex.com/tutorials/graphics/bufferedimage.shtml
 
 //#TODO Logica in het aan elkaar plakken
 //#TODO Mogelijk croppen
-//#TODO Uitlezen van pixels om deadends toe tevoegen
+//#TODO bigroomtile + 1 index gebruiken voor dead ends
 //#TODO Check voor valid space voor tile
 
 import javax.imageio.ImageIO;
@@ -22,15 +22,18 @@ import java.util.List;
 
 public class DrawMap {
 
+    private  List<Node> allNodes = new ArrayList<>();
     private List<Node> wayToTheEndRoom = new ArrayList<>();  // Array of all nodes.
+    private List<Node> wayToTheEndRoomChecked = new ArrayList<>();  // Array of all nodes after pathchecking.
     private int width = 8000;
     private int height = 8000;
     public  List<String> images= new ArrayList<>();
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = result.getGraphics();
 
-    public DrawMap(List<Node> wayToTheEndRoom) {
+    public DrawMap(List<Node> wayToTheEndRoom,List<Node>allNodes) {
         this.wayToTheEndRoom = wayToTheEndRoom;
+        this.allNodes = allNodes;
     }
 
     public void addImages(String s) {
@@ -38,7 +41,8 @@ public class DrawMap {
     }
 
     public void nodesToString(){
-        for(var node : wayToTheEndRoom){
+        checkPath();
+        for(var node : wayToTheEndRoomChecked){
             if (node.name.contains("startRoom")){
                 images.add("./Resources/Default/"+node.name+"/"+node.name+".png");
             }
@@ -56,11 +60,54 @@ public class DrawMap {
         System.out.println(images);
     }
 
+    public void checkPath(){
+        int indexOfList =0;
+        System.out.println(wayToTheEndRoom);
+        Node fixNode = new Node(99,"hallwayNOZW");
+        for (var node : wayToTheEndRoom){
+            //System.out.println(node);
+            indexOfList++;
+            wayToTheEndRoomChecked.add(node);
+            if(node.name.contains("bigRoom")){
+                if (wayToTheEndRoom.get(indexOfList-1).name.contains("N")&&wayToTheEndRoom.get(indexOfList).name.contains("N")){
+                    wayToTheEndRoomChecked.add(indexOfList,fixNode);
+                    continue;
+                }
+                /*
+                if (wayToTheEndRoom.get(indexOfList-1).name.contains("Z")&&wayToTheEndRoom.get(indexOfList).name.contains("Z")){
+                    wayToTheEndRoomChecked.add(indexOfList,fixNode);
+                    continue;
+                }
+                if((wayToTheEndRoom.get(indexOfList-1).name.contains("O")==false)&&(wayToTheEndRoom.get(indexOfList-2).name.contains("O")==false)&&(wayToTheEndRoom.get(indexOfList-2).name.contains("startRoom")==false)){
+                    //wayToTheEndRoom.add(indexOfList-1,allNodes.get(10));
+                    wayToTheEndRoomChecked.add(indexOfList,fixNode);
+                    continue;
+                }
+
+                 */
+            }
+
+        }
+        System.out.println(wayToTheEndRoomChecked);
+    }
+
     public void run() {
         int x =300;
-        int y =1600;
-        System.out.println(images);
+        int y =4000;
+        //System.out.println(images);
         int index = 0;
+
+        //Create dead ends
+
+        BufferedImage biEndN =null;
+        BufferedImage biEndO =null;
+        BufferedImage biEndZ =null;
+        BufferedImage biEndW =null;
+        try { biEndN = ImageIO.read(new File("./Resources/Default/Hallways/HallwayN/HallwayN.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndO = ImageIO.read(new File("./Resources/Default/Hallways/HallwayO/HallwayO.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndZ = ImageIO.read(new File("./Resources/Default/Hallways/HallwayZ/HallwayZ.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndW = ImageIO.read(new File("./Resources/Default/Hallways/HallwayW/HallwayW.png")); } catch (IOException e) { e.printStackTrace(); }
+
         for(String image : images){
 
             index++;
@@ -89,8 +136,18 @@ public class DrawMap {
                 }
                 if (previous.contains("O")){
                     g.drawImage(bi, x, y-biLast.getHeight(), null);
+
+                    if(previous.contains("N")&& (images.get(index-3).contains("bigRoom")==false)||previous.contains("NOW")||previous.contains("NOZW")){
+                        g.drawImage(biEndZ, x-biLast.getWidth(), y-biLast.getHeight(), null);
+                    }
+
+                    if(previous.contains("Z")&&images.get(index-3).contains("N")==false){
+                        g.drawImage(biEndN, x-biLast.getWidth(), y+biLast.getHeight(), null);
+                    }
                     x += bi.getTileWidth();
                     y -= biLast.getHeight();
+
+
                     continue;
                 }
                 else if (previous.contains("Z")){
@@ -142,6 +199,12 @@ public class DrawMap {
                     continue;
                 }
 
+                if((image.contains("Z")) && previous.contains("N")){
+                    g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
+                    //x += biLast.getTileWidth();
+                    y -= bi.getHeight();
+                    continue;
+                }
 
 
                 if (previous.contains("O")){

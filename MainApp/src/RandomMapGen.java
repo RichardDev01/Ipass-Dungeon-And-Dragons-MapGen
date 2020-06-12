@@ -14,10 +14,14 @@ public class RandomMapGen {
     public RandomMapGen(List<Node> nodes, int maxBigRooms, int minBigRooms) {
         this.nodes = nodes;
         this.maxBigRooms = maxBigRooms;
-        this.minBigRooms = minBigRooms;
+        this.minBigRooms = minBigRooms+1;
     }
 
-    public List<Node> run(Node startNode,int maxLength, Node endNode) {
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public List<Node> run(Node startNode, int maxLength, Node endNode) {
         Node currentNode = startNode;               //Set startNode
         pathTakenThroughFSM.add(currentNode);      //Add the starting node to list
 

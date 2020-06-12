@@ -137,6 +137,12 @@ public class Main {
         for (var h : hallwaylist){
             //adding hallways to hallways
             for (var t : transistionlistHallway){
+                if (h.name.contains("NO") && t.n.name.contains("OZ")){
+                    continue;
+                }
+                if (h.name.contains("OZ") && t.n.name.contains("NO")){
+                    continue;
+                }
                 if (h.name.contains("Z") && t.n.name.contains("N")){
                     hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
                     continue;
@@ -227,81 +233,40 @@ public class Main {
         //Creating the generator
         RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
 
-        DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
-        dm1.nodesToString();
-
-
-        /*
-        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNW/hallwayNW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOW/hallwayOW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOW/hallwayOW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNZ/hallwayNZ.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOW/hallwayOW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNW/hallwayNW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOZ/hallwayOZ.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNW/hallwayNW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        //dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-
-         */
-
-        /*
-        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNZW/hallwayNZW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOZ/hallwayOZ.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOZW/hallwayOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");
-        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-*/
+        DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes);
+        //dm1.nodesToString();
 /*
         dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNO/hallwayNO.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNZW/hallwayNZW.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
+        //dm1.addImages("./Resources/Default/Hallways/hallwayOZW/hallwayOZW.png");
+        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
+        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
+ /*
+        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
+        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
+        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayOW/hallwayOW.png");
+        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
         dm1.addImages("./Resources/Default/endRooms/endRoom.png");
 */
-/*
-        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOZW/hallwayOZW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNZW/hallwayNZW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNO/hallwayNO.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
- */
-/*
         dm1.addImages("./Resources/Default/startRoom/startRoom.png");
         dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
         dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNO/hallwayNO.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNW/hallwayNW.png");
         dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");
+        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
+        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
+        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
         dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-        */
         dm1.run();
 
 
