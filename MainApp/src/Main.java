@@ -234,7 +234,7 @@ public class Main {
         RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
 
         DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes);
-        //dm1.nodesToString();
+        dm1.nodesToString();
 /*
         dm1.addImages("./Resources/Default/startRoom/startRoom.png");
         dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
@@ -243,7 +243,7 @@ public class Main {
         //dm1.addImages("./Resources/Default/Hallways/hallwayOZW/hallwayOZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
         dm1.addImages("./Resources/Default/endRooms/endRoom.png");
- /*
+
         dm1.addImages("./Resources/Default/startRoom/startRoom.png");
         dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
@@ -254,7 +254,7 @@ public class Main {
         dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
         dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-*/
+
         dm1.addImages("./Resources/Default/startRoom/startRoom.png");
         dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
@@ -267,6 +267,7 @@ public class Main {
         dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
         dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
         dm1.addImages("./Resources/Default/endRooms/endRoom.png");
+        */
         dm1.run();
 
 
