@@ -174,7 +174,7 @@ public class Main {
             Double chanceDb = h.getSumMaxRandomnummer()/chanceForBigRoomDB;
             //System.out.println(chanceDb);
             int chanceint = chanceDb.intValue();
-            chanceint = 25; //magic number
+            chanceint = 10; //magic number
             for (var b : bigRoomlist){
                 Transistion t1 = new Transistion(b,chanceint,counterBigroom);
                 transistionlistBigRoom.add(t1);
@@ -192,7 +192,7 @@ public class Main {
         //Adding code for bigroom trasistions
         for (var br : bigRoomlist){
             for (var t : transistionlistHallway){
-                if(t.n.name == "hallwayNW" || t.n.name == "hallwayZW" || (t.n.name.contains("O"))==false){
+                if(t.n.name == "hallwayNW" || t.n.name == "hallwayZW"|| t.n.name == "hallwayOZ" || t.n.name == "hallwayNO"|| (t.n.name.contains("O"))==false){
                     continue;
                 }
                 //br.addConnectie(t);
@@ -237,19 +237,8 @@ public class Main {
         ArrayList<Node> debugNodeslist = new ArrayList<>();
 
         debugNodeslist.add(startRoom);
-        debugNodeslist.add(hallwayNW);
-        debugNodeslist.add(hallwayOZW);
-        debugNodeslist.add(hallwayNOZ);
-        debugNodeslist.add(hallwayNZ);
-        debugNodeslist.add(hallwayNOW);
-        debugNodeslist.add(hallwayOZW);
-        debugNodeslist.add(hallwayNOW);
         debugNodeslist.add(hallwayNOZW);
-
-        debugNodeslist.add(hallwayNOW);
         debugNodeslist.add(hallwayOW);
-        debugNodeslist.add(hallwayOZW);
-        debugNodeslist.add(hallwayNZW);
         debugNodeslist.add(bigRoom1);
 
         debugNodeslist.add(endRoom);
@@ -260,54 +249,6 @@ public class Main {
 
         DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes);
         dm1.nodesToString();
-/*
-        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
-        //dm1.addImages("./Resources/Default/Hallways/hallwayOZW/hallwayOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-
-        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayOW/hallwayOW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-
-        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayZW/hallwayZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNO/hallwayNO.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNW/hallwayNW.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom2/bigRoom2.png");
-        dm1.addImages("./Resources/Default/Hallways/hallwayNOZW/hallwayNOZW.png");
-        dm1.addImages("./Resources/Default/Bigrooms/bigRoom3/bigRoom3.png");
-        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-        */
-
-//        dm1.addImages("./Resources/Default/startRoom/startRoom.png");
-//        dm1.addImages("./Resources/Default/Hallways/hallwayNW/hallwayNW.png");
-//        dm1.addImages("./Resources/Default/Hallways/hallwayOZW/hallwayOZW.png");
-///*        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");
-//        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-//        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");*/
-//        dm1.addImages("./Resources/Default/Hallways/hallwayNOZ/hallwayNOZ.png");
-//        dm1.addImages("./Resources/Default/Hallways/hallwayNZ/hallwayNZ.png");
-//        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-///*        dm1.addImages("./Resources/Default/Bigrooms/bigRoom4/bigRoom4.png");
-//        dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
-//        dm1.addImages("./Resources/Default/Bigrooms/bigRoom1/bigRoom1.png");*/
-//        dm1.addImages("./Resources/Default/endRooms/endRoom.png");
-//
         dm1.run();
         //dm1Debug.run();
 
