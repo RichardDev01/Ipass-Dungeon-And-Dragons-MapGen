@@ -140,6 +140,9 @@ public class Main {
                 if (h.name.contains("NO") && t.n.name.contains("OZ")){
                     continue;
                 }
+                if (h.name.contains("NZ") && t.n.name.contains("OZ")){
+                    continue;
+                }
                 if (h.name.contains("OZ") && t.n.name.contains("NO")){
                     continue;
                 }
@@ -238,20 +241,35 @@ public class Main {
 
         debugNodeslist.add(startRoom);
         debugNodeslist.add(hallwayNOZW);
+        debugNodeslist.add(bigRoom1);
+        debugNodeslist.add(hallwayNOZW);
         debugNodeslist.add(hallwayOW);
+        debugNodeslist.add(hallwayZW);
         debugNodeslist.add(bigRoom1);
 
-        debugNodeslist.add(endRoom);
+       debugNodeslist.add(endRoom);
 
-        DrawMap dm1Debug = new DrawMap(debugNodeslist,allNodes);
+        DrawMap dm1Debug = new DrawMap(debugNodeslist,allNodes,false);
         dm1Debug.nodesToString();
 
 
-        DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes);
+        DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
         dm1.nodesToString();
-        dm1.run();
+        //dm1.run();
         //dm1Debug.run();
 
+        boolean check = false;
+        check = dm1.run();
+        int counterOfSimulations = 1;
+        while (check==false && counterOfSimulations<5){
+            System.out.println("sim: "+ counterOfSimulations+1);
+            fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+            //dm1.setWayToTheEndRoom(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
+            dm1.nodesToString();
+            check = dm1.run();
+            counterOfSimulations++;
+        }
 
     }
 }

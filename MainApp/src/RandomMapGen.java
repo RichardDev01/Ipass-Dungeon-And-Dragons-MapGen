@@ -21,6 +21,10 @@ public class RandomMapGen {
         return nodes;
     }
 
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
+    }
+
     public List<Node> run(Node startNode, int maxLength, Node endNode) {
         Node currentNode = startNode;               //Set startNode
         pathTakenThroughFSM.add(currentNode);      //Add the starting node to list
