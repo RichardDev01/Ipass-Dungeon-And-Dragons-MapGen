@@ -7,9 +7,16 @@ https://stackoverflow.com/questions/7855387/percentage-of-two-int
 Okay, ik denk dat de netste manier om dat te doen is: het aanpassen van de constructor van FsmRandomExtended en de lijsten
 doorgeven vanuit Main (aangenomen dat je specifiek die lijsten al in Main nodig hebt en niet alleen in FsmRandomExtended)
  */
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Random;
 
 //#TODO Correcte halway connections maken
 //#TODO Drawing uitzoeken
@@ -17,7 +24,105 @@ import java.util.Random;
 
 public class Main {
 
+    private JButton btnRender;
+    private JPanel panel1;
+    private JSlider slrRatioBigRooms;
+    private JSlider slrMaxBigRooms;
+    private JSlider slrMinBigRooms;
+    private JPanel JpanelImage;
+    public JLabel lbimg;
+    private JSlider slrMaxRenderSize;
+    private JLabel lblMaxRenderSize;
+    private JLabel lblValueMinBigRooms;
+    private JLabel lblValueMaxBigRooms;
+    private JLabel lblValueRatioBetweenBigRooms;
+
+    public Main() {
+        BufferedImage img =null;
+        try {img = ImageIO.read(new File("logo.png"));} catch (IOException e) { e.printStackTrace(); }
+        ImageIcon icon = new ImageIcon(img);
+        lbimg.setIcon(icon);
+        lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+        lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+        lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+        lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+
+        btnRender.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+            }
+        });
+
+
+        slrMaxRenderSize.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+            }
+        });
+        slrMinBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+            }
+        });
+        slrMaxBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+            }
+        });
+        slrRatioBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+            }
+        });
+    }
+
     public static void main(String[] args) {
+        //~~~~ interface code
+        JFrame frame = new JFrame("GUIDnDMapGen");
+        frame.setContentPane(new Main().panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setSize(400 ,640);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        ////~~~////
 
         //Creating array list for nodes and transistions
         ArrayList<Node> hallwaylist = new ArrayList<>();
