@@ -174,19 +174,19 @@ public class Main {
             }
 
 
-            //TODO Correcte berekening maken voor bigrooms
-            double chanceForBigRoomDB = chanceForBigRoom/10;
-            //System.out.println(chanceForBigRoomDB);
-            Double chanceDb = h.getSumMaxRandomnummer()/chanceForBigRoomDB;
-            //System.out.println(chanceDb);
-            int chanceint = chanceDb.intValue();
-            chanceint = 50; //magic number
-            for (var b : bigRoomlist){
-                Transistion t1 = new Transistion(b,chanceint,counterBigroom);
-                transistionlistBigRoom.add(t1);
-                //bigRoomlist.get(bigRoomlist.indexOf(b)).addConnectie(t1);
-                counterBigroom++;
-            }
+//            //Old Code for calculating big room change, changed with more stable code in the RandomMapGenClass
+//            double chanceForBigRoomDB = chanceForBigRoom/10;
+//            //System.out.println(chanceForBigRoomDB);
+//            Double chanceDb = h.getSumMaxRandomnummer()/chanceForBigRoomDB;
+//            //System.out.println(chanceDb);
+//            int chanceint = chanceDb.intValue();
+//            chanceint = 50; //magic number
+//            for (var b : bigRoomlist){
+//                Transistion t1 = new Transistion(b,chanceint,counterBigroom);
+//                transistionlistBigRoom.add(t1);
+//                //bigRoomlist.get(bigRoomlist.indexOf(b)).addConnectie(t1);
+//                counterBigroom++;
+//            }
 
 //            for (var th : transistionlistBigRoom){
 //                //h.addConnectie(th);
