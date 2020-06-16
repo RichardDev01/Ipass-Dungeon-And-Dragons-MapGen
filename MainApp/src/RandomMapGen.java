@@ -6,15 +6,20 @@ public class RandomMapGen {
     private List<Node> nodes = new ArrayList<>();  // Array of all nodes.
     private List<Node> pathTakenThroughFSM = new ArrayList<>();   // Array of path through all nodes.
     private List<Character> transistiesCases = new ArrayList<>(); // Array of all trasisties events
+    private List<Node> bigRoomsList = new ArrayList<>();
+
     private int randomPath;     // int range from 0-1 for 50% change to go A or B
     private int randomMinRoom;
     private int maxBigRooms;    //int for max big rooms
     private int minBigRooms;    //int for min big rooms
+    private int hallwayCounter = 0;
+    private int hallwaysForBigRoom;
 
-    public RandomMapGen(List<Node> nodes, int maxBigRooms, int minBigRooms) {
+    public RandomMapGen(List<Node> nodes, int maxBigRooms, int minBigRooms,int hallwaysForBigRoom) {
         this.nodes = nodes;
         this.maxBigRooms = maxBigRooms;
         this.minBigRooms = minBigRooms+1;
+        this.hallwaysForBigRoom = hallwaysForBigRoom/maxBigRooms+1;
     }
 
     public List<Node> getNodes() {
@@ -25,7 +30,16 @@ public class RandomMapGen {
         this.nodes = nodes;
     }
 
+    private void addbigRoomsList(){
+        for (var node : nodes){
+            if (node.name.contains("bigRoom")){
+                bigRoomsList.add(node);
+            }
+        }
+    }
+
     public List<Node> run(Node startNode, int maxLength, Node endNode) {
+        addbigRoomsList();
         Node currentNode = startNode;               //Set startNode
         pathTakenThroughFSM.add(currentNode);      //Add the starting node to list
 
@@ -38,56 +52,63 @@ public class RandomMapGen {
 
             if (newNode != null) { //if NewNode has a node, make currentNode newNode
                 try {
-                    //remove bigrooms from trasistions (aanpak is controle op hoeveelheid rooms maar niet remove)
-                if (newNode.id > 19 && newNode.id < 30) {
-                    //System.out.println(newNode.name);
-                    minBigRooms--;
-                    maxBigRooms--;
+                    //hallwayCounter
+                    if (newNode.id < 19){
+                      hallwayCounter++;
+                    }
+                    if (hallwayCounter == hallwaysForBigRoom){
+                        hallwayCounter=0;
+                        int index = new Random().nextInt(bigRoomsList.size());
+                        newNode = bigRoomsList.get(index);
+                    }
+                        //remove bigrooms from trasistions (aanpak is controle op hoeveelheid rooms maar niet remove)
+                    if (newNode.id > 19 && newNode.id < 30) {
+                        //System.out.println(newNode.name);
+                        minBigRooms--;
+                        maxBigRooms--;
 
-                    //Removal code for trasistion (bugged)
-                    /*
-                    for (var no : nodes) {
-                        for (var tr : no.connectedNodes) {
-                            for (var cn : tr.n.connectedNodes){
-                                if(cn.id == no.id){
-                                    //tr.n.connectedNodes.remove(cn);
-                                    tr.n.connectedNodes.remove(tr.n.connectedNodes.size()-1);
+                        //Removal code for trasistion (bugged)
+                        /*
+                        for (var no : nodes) {
+                            for (var tr : no.connectedNodes) {
+                                for (var cn : tr.n.connectedNodes){
+                                    if(cn.id == no.id){
+                                        //tr.n.connectedNodes.remove(cn);
+                                        tr.n.connectedNodes.remove(tr.n.connectedNodes.size()-1);
 
+                                    }
+                                }
+
+                               // if (tr.n == newNode){
+                                    //System.out.println(no.connectedNodes.indexOf(tr.getNode()));
+                                    //int index = tr.n.connectedNodes.
+                                    //tr.n.connectedNodes.remove()
+
+                                //}
+                            }
+                        }
+
+                         */
+                        /*
+                        for (var no : nodes) {
+                            for (var tr : no.connectedNodes) {
+                                //no.connectedNodes.remove(no.connectedNodes.indexOf(tr));
+                                if (tr.n == newNode) {
+                                    no.connectedNodes.remove(no.connectedNodes.indexOf(tr));
                                 }
                             }
-
-                           // if (tr.n == newNode){
-                                //System.out.println(no.connectedNodes.indexOf(tr.getNode()));
-                                //int index = tr.n.connectedNodes.
-                                //tr.n.connectedNodes.remove()
-
-                            //}
                         }
-                    }
 
-                     */
-                    /*
-                    for (var no : nodes) {
-                        for (var tr : no.connectedNodes) {
-                            //no.connectedNodes.remove(no.connectedNodes.indexOf(tr));
-                            if (tr.n == newNode) {
-                                no.connectedNodes.remove(no.connectedNodes.indexOf(tr));
-                            }
-                        }
+                         */
                     }
-
-                     */
-                }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                //Minimale aantal bigRooms (lijkt werkend)
+                //Als minimale big rooms er niet is maar wel het einden, neem ander pad
                 if (minBigRooms >0 && newNode == endNode){
-                   //int connectedNodeslist = currentNode.connectedNodes.size()-(maxBigRooms+1);
                    int connectedNodeslist = new Random().nextInt(currentNode.connectedNodes.size());
-                   //randomMinRoom = new Random().nextInt(connectedNodeslist+2);
                    newNode = currentNode.connectedNodes.get(connectedNodeslist).n;
                 }
 

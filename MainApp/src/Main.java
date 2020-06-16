@@ -93,7 +93,7 @@ public class Main {
         System.out.println("Maximale opvervlakte?\n(9,16,25,36)");
         int  maxGroteTilesAantal = snrMaximaleGrote.nextInt();
          */
-        int  maxGroteTilesAantal = 100;
+        int  maxGroteTilesAantal = 30;
 
         Scanner snrMinBigRooms = new Scanner(System.in);
         System.out.println("minimale aantal Bigrooms?\n(0,1,2,3,4) moet minder zijn dan maxaantal");
@@ -188,10 +188,10 @@ public class Main {
                 counterBigroom++;
             }
 
-            for (var th : transistionlistBigRoom){
-                //h.addConnectie(th);
-                hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(th);
-            }
+//            for (var th : transistionlistBigRoom){
+//                //h.addConnectie(th);
+//                hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(th);
+//            }
             //System.out.println(h.getSumMaxRandomnummer()*0.25);
         }
 
@@ -232,29 +232,35 @@ public class Main {
         allNodes.addAll(hallwaylist);
         allNodes.addAll(hallwayEndlist);
 
+//        RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
+//        fsmR2.run(startRoom,maxGroteTilesAantal,endRoom);
         //Debug strings
         //System.out.println(hallwaylist.get(0).getChance());
         //System.out.println(bigRoomlist.get(0).getChance());
 
 
 
-//        //TODO, make this a run void in main
-//        //Creating the generator
-//        //RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
-//        RandomMapGen fsmR2 = null;
-//        //DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
-//        DrawMap dm1 = null;
-//        boolean check = false;
-//        int counterOfSimulations = 1;
-//        while (check==false && counterOfSimulations<5){
-//            System.out.println("sim: "+ counterOfSimulations);
-//            fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
-//            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
-//            //dm1.setWayToTheEndRoom(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
-//            dm1.nodesToString();
-//            check = dm1.run();
-//            counterOfSimulations++;
-//        }
+        //TODO, make this a run void in main
+        //Creating the generator
+        //RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+        RandomMapGen fsmR2 = null;
+        //DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+        DrawMap dm1 = null;
+        boolean check = false;
+        int counterOfSimulations = 1;
+        while (check==false && counterOfSimulations<5){
+            System.out.println("sim: "+ counterOfSimulations);
+            fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
+            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+            //dm1.setWayToTheEndRoom(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
+            dm1.nodesToString();
+            check = dm1.run();
+            counterOfSimulations++;
+        }
+        if (counterOfSimulations ==5){
+            System.out.println("couldn't make map, plz try again");
+            System.out.println("latest result has been dumped");
+        }
 
         //~~~~ till here
 
