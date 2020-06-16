@@ -27,6 +27,7 @@ public class Main {
         ArrayList<Transistion> transistionlistBigRoom = new ArrayList<>();
 
         //Creating Nodes (tilessets)
+        //See schematic for meaning of N,NO,NZ... ect
         Node hallwayN = new Node(0,"hallwayN");
         Node hallwayNO = new Node(1,"hallwayNO");
         Node hallwayNZ = new Node(2,"hallwayNZ");
@@ -44,6 +45,8 @@ public class Main {
         Node hallwayW = new Node(14,"hallwayW");
 
         //Adding hallways to list
+        //Dev note, did not add dead ends to all node because it is handled in DrawMap Class
+
         //hallwaylist.add(hallwayN);
         hallwaylist.add(hallwayNO);
         hallwaylist.add(hallwayNZ);
@@ -84,6 +87,7 @@ public class Main {
 
         //User input stage ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        //#TODO Replace with interface
         /*
         Scanner snrMaximaleGrote = new Scanner(System.in);
         System.out.println("Maximale opvervlakte?\n(9,16,25,36)");
@@ -111,16 +115,13 @@ public class Main {
 
         // Mogelijk obsalite code voor later omdat ik nu controleer hoeveel rooms ik gehad heb
         // Remove excess bigrooms
-        int aantalRoomsVerwijderen = bigRoomlist.size() - aantalBigroom;
-        int randomPop;
-        for (int i = 0; i < aantalRoomsVerwijderen; i++) {
-            randomPop = new Random().nextInt(bigRoomlist.size());
-            //System.out.println("randompop "+randomPop);
-            bigRoomlist.remove(randomPop);
-        }
-
-
-
+//        int aantalRoomsVerwijderen = bigRoomlist.size() - aantalBigroom;
+//        int randomPop;
+//        for (int i = 0; i < aantalRoomsVerwijderen; i++) {
+//            randomPop = new Random().nextInt(bigRoomlist.size());
+//            //System.out.println("randompop "+randomPop);
+//            bigRoomlist.remove(randomPop);
+//        }
 
 
         //creating hallway list
@@ -137,6 +138,8 @@ public class Main {
         for (var h : hallwaylist){
             //adding hallways to hallways
             for (var t : transistionlistHallway){
+
+                //filtering and checking if certain tiles can be connected or not, this can be improved
                 if (h.name.contains("NO") && t.n.name.contains("OZ")){
                     continue;
                 }
@@ -177,7 +180,7 @@ public class Main {
             Double chanceDb = h.getSumMaxRandomnummer()/chanceForBigRoomDB;
             //System.out.println(chanceDb);
             int chanceint = chanceDb.intValue();
-            chanceint = 10; //magic number
+            chanceint = 50; //magic number
             for (var b : bigRoomlist){
                 Transistion t1 = new Transistion(b,chanceint,counterBigroom);
                 transistionlistBigRoom.add(t1);
@@ -233,43 +236,54 @@ public class Main {
         //System.out.println(hallwaylist.get(0).getChance());
         //System.out.println(bigRoomlist.get(0).getChance());
 
-        //Creating the generator
-        RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+
+
+//        //TODO, make this a run void in main
+//        //Creating the generator
+//        //RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+//        RandomMapGen fsmR2 = null;
+//        //DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+//        DrawMap dm1 = null;
+//        boolean check = false;
+//        int counterOfSimulations = 1;
+//        while (check==false && counterOfSimulations<5){
+//            System.out.println("sim: "+ counterOfSimulations);
+//            fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+//            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+//            //dm1.setWayToTheEndRoom(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
+//            dm1.nodesToString();
+//            check = dm1.run();
+//            counterOfSimulations++;
+//        }
+
+        //~~~~ till here
+
+
+
+        //TODO, This is for debug purpose only, delete when done
 
         //Debug Array
-        ArrayList<Node> debugNodeslist = new ArrayList<>();
-
-        debugNodeslist.add(startRoom);
-        debugNodeslist.add(hallwayNOZW);
-        debugNodeslist.add(bigRoom1);
-        debugNodeslist.add(hallwayNOZW);
-        debugNodeslist.add(hallwayOW);
-        debugNodeslist.add(hallwayZW);
-        debugNodeslist.add(bigRoom1);
-
-       debugNodeslist.add(endRoom);
-
-        DrawMap dm1Debug = new DrawMap(debugNodeslist,allNodes,false);
-        dm1Debug.nodesToString();
 
 
-        DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
-        dm1.nodesToString();
-        //dm1.run();
+//        ArrayList<Node> debugNodeslist = new ArrayList<>();
+//
+//        debugNodeslist.add(startRoom);
+//        debugNodeslist.add(hallwayNOZW);
+//        debugNodeslist.add(bigRoom1);
+//        debugNodeslist.add(hallwayNOZW);
+//        debugNodeslist.add(hallwayOW);
+//        debugNodeslist.add(hallwayZW);
+//        debugNodeslist.add(bigRoom1);
+//
+//        debugNodeslist.add(endRoom);
+//
+//        DrawMap dm1Debug = new DrawMap(debugNodeslist,allNodes,false);
+//        dm1Debug.nodesToString();
+
         //dm1Debug.run();
-
-        boolean check = false;
-        check = dm1.run();
-        int counterOfSimulations = 1;
-        while (check==false && counterOfSimulations<5){
-            System.out.println("sim: "+ counterOfSimulations+1);
-            fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
-            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
-            //dm1.setWayToTheEndRoom(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom));
-            dm1.nodesToString();
-            check = dm1.run();
-            counterOfSimulations++;
-        }
+        //~~~~~till here
 
     }
+
+
 }

@@ -5,12 +5,8 @@ https://stackoverflow.com/questions/20826216/copy-two-bufferedimages-into-one-im
 https://docs.oracle.com/javase/tutorial/2d/images/drawonimage.html
 https://www.javamex.com/tutorials/graphics/bufferedimage.shtml
  */
-
-
-//#TODO Logica in het aan elkaar plakken
 //#TODO Mogelijk croppen
-//#TODO bigroomtile + 1 index gebruiken voor dead ends
-//#TODO Check voor valid space voor tile
+
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -153,7 +149,7 @@ public class DrawMap {
                     g.drawImage(bi, x, y-biLast.getHeight(), null);
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
 
-                    debugPixels(x,y+bi.getHeight()/2,bi); //remove later
+                    //debugPixels(x,y+bi.getHeight()/2,bi); //remove later
 
                     x += bi.getTileWidth();
                     y -= biLast.getHeight();
@@ -397,9 +393,7 @@ public class DrawMap {
                     e.printStackTrace();
                 }
                 creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                g.drawImage(bi, x, y, null);
-                //x += bi.getTileWidth();
-                //y -= bi.getHeight();
+                g.drawImage(bi, x-biLast.getWidth()/2-bi.getWidth()/2, y+biLast.getHeight()/2-bi.getHeight()/2, null);
                 continue;
             }
 
