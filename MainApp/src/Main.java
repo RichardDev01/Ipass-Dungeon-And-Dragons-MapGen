@@ -35,81 +35,8 @@ public class Main {
     private JLabel lblValueRatioBetweenBigRooms;
 
     //Hier denk ik alle variablen declareren?
-
-    public Main() {
-        BufferedImage img =null;
-        try {img = ImageIO.read(new File("logo.png"));} catch (IOException e) { e.printStackTrace(); }
-        ImageIcon icon = new ImageIcon(img);
-        lbimg.setIcon(icon);
-        lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
-        lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
-        lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
-        lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
-
-        btnRender.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //runMachine(); Dit is wat ik wil
-            }
-        });
-
-
-        slrMaxRenderSize.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
-            }
-        });
-        slrMinBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
-                //writeMinBigValue(slrMinBigRooms.getValue());
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
-                //writeMinBigValue(slrMinBigRooms.getValue());
-            }
-        });
-        slrMaxBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
-                //writeMaxBigRoomsValue(slrMaxBigRooms.getValue());
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
-            }
-        });
-        slrRatioBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
-            }
-        });
-    }
+    //private Node hallwayN;
+    //private static Node hallwayN;
 
     public static void main(String[] args) {
         //~~~~ interface code
@@ -295,7 +222,7 @@ public class Main {
         DrawMap dm1 = null;
         boolean check = false;
         int counterOfSimulations = 1;
-        while (check==false && counterOfSimulations<5){
+        while (check==false && counterOfSimulations<10){
             System.out.println("sim: "+ counterOfSimulations);
             fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
             dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
@@ -303,7 +230,7 @@ public class Main {
             check = dm1.run();
             counterOfSimulations++;
         }
-        if (counterOfSimulations ==5){
+        if (counterOfSimulations ==10){
             System.out.println("couldn't make map, plz try again");
             System.out.println("latest result has been dumped");
         }
@@ -331,9 +258,86 @@ public class Main {
 
     }
 
+    public Main() {
+        BufferedImage img =null;
+        try {img = ImageIO.read(new File("logo.png"));} catch (IOException e) { e.printStackTrace(); }
+        ImageIcon icon = new ImageIcon(img);
+        lbimg.setIcon(icon);
+        lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+        lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+        lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+        lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+
+        btnRender.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //runMachine(); Dit is wat ik wil
+            }
+        });
+
+
+        slrMaxRenderSize.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
+            }
+        });
+        slrMinBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+                //writeMinBigValue(slrMinBigRooms.getValue());
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+                //writeMinBigValue(slrMinBigRooms.getValue());
+            }
+        });
+        slrMaxBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+                //writeMaxBigRoomsValue(slrMaxBigRooms.getValue());
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+            }
+        });
+        slrRatioBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+            }
+        });
+    }
+
+
     public void setup(){
         // ik denk alle code hierheen om dit te laten werken?
     }
+
     public void runMachine(List<Node> allNodes, int aantalBigroom, int aantalMinBigroom, int aantalHalways, Node startRoom, int maxGroteTilesAantal, Node endRoom){
 
     //public void runMachine(){
