@@ -16,11 +16,8 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-//#TODO Correcte halway connections maken
-//#TODO Drawing uitzoeken
-//#TODO Drawing algoritme maken
 
 public class Main {
 
@@ -30,12 +27,14 @@ public class Main {
     private JSlider slrMaxBigRooms;
     private JSlider slrMinBigRooms;
     private JPanel JpanelImage;
-    public JLabel lbimg;
+    private JLabel lbimg;
     private JSlider slrMaxRenderSize;
     private JLabel lblMaxRenderSize;
     private JLabel lblValueMinBigRooms;
     private JLabel lblValueMaxBigRooms;
     private JLabel lblValueRatioBetweenBigRooms;
+
+    //Hier denk ik alle variablen declareren?
 
     public Main() {
         BufferedImage img =null;
@@ -50,10 +49,7 @@ public class Main {
         btnRender.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
-                lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
-                lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
-                lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
+                //runMachine(); Dit is wat ik wil
             }
         });
 
@@ -76,12 +72,14 @@ public class Main {
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
                 lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+                //writeMinBigValue(slrMinBigRooms.getValue());
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
                 lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
+                //writeMinBigValue(slrMinBigRooms.getValue());
             }
         });
         slrMaxBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
@@ -89,6 +87,7 @@ public class Main {
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
                 lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
+                //writeMaxBigRoomsValue(slrMaxBigRooms.getValue());
             }
 
             @Override
@@ -311,7 +310,7 @@ public class Main {
 
         //~~~~ till here
 
-        //TODO, This is for debug purpose only, delete when done
+        //This is for debug purpose only, delete when done
         //Debug Array
 //        ArrayList<Node> debugNodeslist = new ArrayList<>();
 //
@@ -330,6 +329,31 @@ public class Main {
         //dm1Debug.run();
         //~~~~~till here
 
+    }
+
+    public void setup(){
+        // ik denk alle code hierheen om dit te laten werken?
+    }
+    public void runMachine(List<Node> allNodes, int aantalBigroom, int aantalMinBigroom, int aantalHalways, Node startRoom, int maxGroteTilesAantal, Node endRoom){
+
+    //public void runMachine(){
+        //Creating the generator
+        RandomMapGen fsmR2 = null;
+        DrawMap dm1 = null;
+        boolean check = false;
+        int counterOfSimulations = 1;
+        while (check==false && counterOfSimulations<10){
+            System.out.println("sim: "+ counterOfSimulations);
+            fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
+            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+            dm1.nodesToString();
+            check = dm1.run();
+            counterOfSimulations++;
+        }
+        if (counterOfSimulations ==10){
+            System.out.println("couldn't make map, plz try again");
+            System.out.println("latest result has been dumped");
+        }
     }
 
 

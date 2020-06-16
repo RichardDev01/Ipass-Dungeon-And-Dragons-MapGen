@@ -66,40 +66,6 @@ public class RandomMapGen {
                         //System.out.println(newNode.name);
                         minBigRooms--;
                         maxBigRooms--;
-
-                        //Removal code for trasistion (bugged)
-                        /*
-                        for (var no : nodes) {
-                            for (var tr : no.connectedNodes) {
-                                for (var cn : tr.n.connectedNodes){
-                                    if(cn.id == no.id){
-                                        //tr.n.connectedNodes.remove(cn);
-                                        tr.n.connectedNodes.remove(tr.n.connectedNodes.size()-1);
-
-                                    }
-                                }
-
-                               // if (tr.n == newNode){
-                                    //System.out.println(no.connectedNodes.indexOf(tr.getNode()));
-                                    //int index = tr.n.connectedNodes.
-                                    //tr.n.connectedNodes.remove()
-
-                                //}
-                            }
-                        }
-
-                         */
-                        /*
-                        for (var no : nodes) {
-                            for (var tr : no.connectedNodes) {
-                                //no.connectedNodes.remove(no.connectedNodes.indexOf(tr));
-                                if (tr.n == newNode) {
-                                    no.connectedNodes.remove(no.connectedNodes.indexOf(tr));
-                                }
-                            }
-                        }
-
-                         */
                     }
 
                 } catch (Exception e) {
@@ -112,18 +78,6 @@ public class RandomMapGen {
                    newNode = currentNode.connectedNodes.get(connectedNodeslist).n;
                 }
 
-                //Oude code voor minimale aantal bigrooms
-                /*
-                int exitInt = 0;
-                if (minBigRooms >0 && newNode == endNode){
-                    randomPath = new Random().nextInt(currentNode.getSumMaxRandomnummer()+1);
-                    newNode = currentNode.randomTransistion(randomPath);
-                    exitInt++;
-                    if (exitInt ==5){
-                        break;
-                    }
-                }
-*/
                 if (maxBigRooms ==0){
                     currentNode = endNode;
                 }
