@@ -71,7 +71,7 @@
                   <maximum value="5"/>
                   <paintTicks value="true"/>
                   <snapToTicks value="true"/>
-                  <value value="3"/>
+                  <value value="2"/>
                   <valueIsAdjusting value="false"/>
                 </properties>
               </component>
@@ -132,13 +132,6 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="1c7d5" class="javax.swing.JLabel" binding="lbimg">
-                        <constraints border-constraint="North"/>
-                        <properties>
-                          <text value=""/>
-                          <verticalTextPosition value="1"/>
-                        </properties>
-                      </component>
                       <grid id="e463f" layout-manager="BorderLayout" hgap="0" vgap="0">
                         <constraints border-constraint="South"/>
                         <properties/>
@@ -203,6 +196,40 @@
                                   <text value="Value"/>
                                 </properties>
                               </component>
+                            </children>
+                          </grid>
+                          <grid id="2b5ee" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints border-constraint="Center"/>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="1c7d5" class="javax.swing.JLabel" binding="lbimg">
+                                <constraints border-constraint="North"/>
+                                <properties>
+                                  <text value=""/>
+                                  <verticalAlignment value="0"/>
+                                  <verticalTextPosition value="1"/>
+                                </properties>
+                              </component>
+                              <grid id="eeb46" layout-manager="BorderLayout" hgap="0" vgap="0">
+                                <constraints border-constraint="South"/>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <component id="ee8d3" class="javax.swing.JLabel">
+                                    <constraints border-constraint="North"/>
+                                    <properties>
+                                      <text value="FilePath to Resource: ./Resources/&quot;Your Folder&quot;"/>
+                                    </properties>
+                                  </component>
+                                  <component id="36d6b" class="javax.swing.JTextField" binding="filePathTextbox">
+                                    <constraints border-constraint="South"/>
+                                    <properties>
+                                      <text value="./Resources/default"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </grid>
                             </children>
                           </grid>
                         </children>

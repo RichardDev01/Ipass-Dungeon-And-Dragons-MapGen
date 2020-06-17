@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Generator {
     //Creating array list for nodes and transistions
-    private ArrayList<Node> hallwaylist = new ArrayList<>();
+    ArrayList<Node> hallwaylist = new ArrayList<>();
     ArrayList<Node> hallwayEndlist = new ArrayList<>();
     ArrayList<Node> bigRoomlist = new ArrayList<>();
     ArrayList<Transistion> transistionlistHallway = new ArrayList<>();
@@ -64,8 +64,11 @@ public class Generator {
         bigRoomlist.add(bigRoom4);
 
     }
-    public void generate(int aantalBigroom,int aantalHalways,int aantalMinBigroom, int maxGroteTilesAantal){
+    public void generate(int aantalBigroom,int aantalHalways,int aantalMinBigroom, int maxGroteTilesAantal, String FilePath){
         setup();
+
+        aantalHalways = aantalHalways*aantalBigroom;
+
         //Creating Start and Endroom
         Node endRoom = new Node(30,"endRoom");
         Node startRoom = new Node(31,"startRoom");
@@ -160,7 +163,7 @@ public class Generator {
         while (check==false && counterOfSimulations<10){
             System.out.println("sim: "+ counterOfSimulations);
             fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
-            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
+            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false,FilePath);
             dm1.nodesToString();
             check = dm1.run();
             counterOfSimulations++;

@@ -26,14 +26,16 @@ public class DrawMap {
     private boolean forceRender = false;
     private boolean overLappingCheck = false;
     private boolean falsePositiveCheck = false;
+    private String FilePath = "./Resources/default";
     public  List<String> images= new ArrayList<>();
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = result.getGraphics();
 
-    public DrawMap(List<Node> wayToTheEndRoom,List<Node>allNodes,boolean forceRender) {
+    public DrawMap(List<Node> wayToTheEndRoom,List<Node>allNodes,boolean forceRender,String FilePath) {
         this.wayToTheEndRoom = wayToTheEndRoom;
         this.allNodes = allNodes;
         this.forceRender = forceRender;
+        this.FilePath = FilePath;
     }
 
     public void setWayToTheEndRoom(List<Node> wayToTheEndRoom) {
@@ -49,16 +51,16 @@ public class DrawMap {
         checkPath();
         for(var node : wayToTheEndRoomChecked){
             if (node.name.contains("startRoom")){
-                images.add("./Resources/Default/"+node.name+"/"+node.name+".png");
+                images.add(FilePath+"/"+node.name+"/"+node.name+".png");
             }
             if (node.name.contains("hallway")) {
-                images.add("./Resources/Default/Hallways/"+node.name+"/"+node.name+".png");
+                images.add(FilePath+"/Hallways/"+node.name+"/"+node.name+".png");
             }
             if (node.name.contains("bigRoom")){
-                images.add("./Resources/Default/Bigrooms/"+node.name+"/"+node.name+".png");
+                images.add(FilePath+"/Bigrooms/"+node.name+"/"+node.name+".png");
             }
             if (node.name.contains("endRoom")){
-                images.add("./Resources/Default/"+node.name+"s/"+node.name+".png");
+                images.add(FilePath+"/"+node.name+"s/"+node.name+".png");
             }
         }
         System.out.println(images);
@@ -101,10 +103,10 @@ public class DrawMap {
         BufferedImage biEndO =null;
         BufferedImage biEndZ =null;
         BufferedImage biEndW =null;
-        try { biEndN = ImageIO.read(new File("./Resources/Default/Hallways/HallwayN/HallwayN.png")); } catch (IOException e) { e.printStackTrace(); }
-        try { biEndO = ImageIO.read(new File("./Resources/Default/Hallways/HallwayO/HallwayO.png")); } catch (IOException e) { e.printStackTrace(); }
-        try { biEndZ = ImageIO.read(new File("./Resources/Default/Hallways/HallwayZ/HallwayZ.png")); } catch (IOException e) { e.printStackTrace(); }
-        try { biEndW = ImageIO.read(new File("./Resources/Default/Hallways/HallwayW/HallwayW.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndN = ImageIO.read(new File(FilePath+"/Hallways/HallwayN/HallwayN.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndO = ImageIO.read(new File(FilePath+"/Hallways/HallwayO/HallwayO.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndZ = ImageIO.read(new File(FilePath+"/Hallways/HallwayZ/HallwayZ.png")); } catch (IOException e) { e.printStackTrace(); }
+        try { biEndW = ImageIO.read(new File(FilePath+"/Hallways/HallwayW/HallwayW.png")); } catch (IOException e) { e.printStackTrace(); }
 
         for(String image : images){
 
@@ -194,6 +196,7 @@ public class DrawMap {
 
                 System.out.println("where do i fit? #error");
                 falsePositiveCheck = true;
+                overLappingCheck = true;
             }
 
             if(image.contains("hallway")){
@@ -365,6 +368,7 @@ public class DrawMap {
                     continue;
                 }
                 System.out.println("i dont fit me stupid tile");
+                overLappingCheck = true;
                 index --;
             }
 
