@@ -63,16 +63,6 @@ public class Generator {
         bigRoomlist.add(bigRoom3);
         bigRoomlist.add(bigRoom4);
 
-
-
-
-        //interface
-
-
-
-
-
-
     }
     public void generate(int aantalBigroom,int aantalHalways,int aantalMinBigroom, int maxGroteTilesAantal){
         setup();

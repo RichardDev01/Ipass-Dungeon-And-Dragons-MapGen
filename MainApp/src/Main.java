@@ -28,6 +28,10 @@ public class Main {
     private JLabel lblValueMaxBigRooms;
     private JLabel lblValueRatioBetweenBigRooms;
     private JCheckBox checkBoxRunning;
+    public int value1;
+    public int value2;
+    public int value3;
+    public int value4;
 
     //Hier denk ik alle variablen declareren?
     //private Node hallwayN;
@@ -115,7 +119,7 @@ public class Main {
 //
 //        //User input stage ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-//        //#TODO Replace with interface
+//        //#Replace with interface
 //        /*
 //        Scanner snrMaximaleGrote = new Scanner(System.in);
 //        System.out.println("Maximale opvervlakte?\n(9,16,25,36)");
