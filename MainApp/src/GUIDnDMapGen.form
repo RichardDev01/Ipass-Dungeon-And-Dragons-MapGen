@@ -39,6 +39,14 @@
               <text value="Generate map"/>
             </properties>
           </component>
+          <component id="e5143" class="javax.swing.JCheckBox" binding="checkBoxRunning">
+            <constraints border-constraint="East"/>
+            <properties>
+              <enabled value="false"/>
+              <selected value="false"/>
+              <text value="Rendering"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="da2b2" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -63,7 +71,7 @@
                   <maximum value="5"/>
                   <paintTicks value="true"/>
                   <snapToTicks value="true"/>
-                  <value value="2"/>
+                  <value value="3"/>
                   <valueIsAdjusting value="false"/>
                 </properties>
               </component>
@@ -95,7 +103,7 @@
                         <properties>
                           <maximum value="8"/>
                           <paintTicks value="true"/>
-                          <value value="4"/>
+                          <value value="2"/>
                         </properties>
                       </component>
                       <component id="51b5b" class="javax.swing.JLabel">
