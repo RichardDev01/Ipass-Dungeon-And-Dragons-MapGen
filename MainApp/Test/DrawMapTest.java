@@ -94,7 +94,7 @@ public class DrawMapTest {
 
     @Test
     public void addImages() {
-        DrawMap dm1 = new DrawMap(allNodes,allNodes,true,FilePath);
+        DrawMap dm1 = new DrawMap(allNodes,allNodes,true,FilePath,false);
         dm1.addImages("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png");
         assertEquals("./Resources/Default/Hallways/hallwayNOW/hallwayNOW.png",dm1.images.get(dm1.images.size()-1));
     }
@@ -106,7 +106,7 @@ public class DrawMapTest {
         checkNodes.add(startRoom);
         checkNodes.addAll(allNodes);
         checkNodes.add(endRoom);
-        DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath);
+        DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath,false);
         dm1.nodesToString();
         int index =0;
         for(String path : dm1.images){
@@ -131,7 +131,7 @@ public class DrawMapTest {
         wayToEnd.add(bigRoom1);
         wayToEnd.add(endRoom);
 
-        DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath);
+        DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath,false);
         dm1.nodesToString();
         assertFalse(dm1.getWayToTheEndRoomChecked() == wayToEnd);
         wayToEnd.add(3,hallwayNOZ);
@@ -155,7 +155,7 @@ public class DrawMapTest {
         wayToEnd.add(bigRoom1);
         wayToEnd.add(endRoom);
 
-        DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath);
+        DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath,false);
         dm1.nodesToString();
         dm1.run();
 
@@ -170,7 +170,7 @@ public class DrawMapTest {
         checkNodes.add(startRoom);
         checkNodes.addAll(allNodes);
         checkNodes.add(endRoom);
-        DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath);
+        DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath,false);
 
         BufferedImage debugImg =null;
         String FilePathToImage = "../Resources/debug/debugpic.png";

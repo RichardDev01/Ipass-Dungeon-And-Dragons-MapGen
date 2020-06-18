@@ -1,6 +1,3 @@
-/*
-https://stackoverflow.com/questions/7855387/percentage-of-two-int
- */
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -29,14 +26,7 @@ public class Main {
     private JLabel lblValueRatioBetweenBigRooms;
     private JCheckBox checkBoxRunning;
     private JTextField filePathTextbox;
-    public int value1;
-    public int value2;
-    public int value3;
-    public int value4;
-
-    //Hier denk ik alle variablen declareren?
-    //private Node hallwayN;
-    //private static Node hallwayN;
+    private JCheckBox debugCheckBox;
 
     public static void main(String[] args) {
         //~~~~ interface code
@@ -50,41 +40,29 @@ public class Main {
         frame.setLocationRelativeTo(null);
         ////~~~////
 
-
-        //~~~~ till here
-
-        //This is for debug purpose only, delete when done
-        //Debug Array
-//        ArrayList<Node> debugNodeslist = new ArrayList<>();
-//
-//        debugNodeslist.add(startRoom);
-//        debugNodeslist.add(hallwayNOZW);
-//        debugNodeslist.add(bigRoom1);
-//        debugNodeslist.add(hallwayNOZW);
-//        debugNodeslist.add(hallwayOW);
-//        debugNodeslist.add(hallwayZW);
-//        debugNodeslist.add(bigRoom1);
-//
-//        debugNodeslist.add(endRoom);
-//
-//        DrawMap dm1Debug = new DrawMap(debugNodeslist,allNodes,false);
-//        dm1Debug.nodesToString();
-        //dm1Debug.run();
-        //~~~~~till here
+        //Crop function needs to be done sometime
+        BufferedImage cropImg =null;
+        try {cropImg = ImageIO.read(new File("result.png"));} catch (IOException e) { e.printStackTrace(); }
 
     }
 
     public Main() {
+        //Setting logo for Gui
         BufferedImage img =null;
         try {img = ImageIO.read(new File("logo.png"));} catch (IOException e) { e.printStackTrace(); }
         ImageIcon icon = new ImageIcon(img);
         lbimg.setIcon(icon);
+
+        //initialising display value's gui
         lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
         lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
         lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
         lblValueRatioBetweenBigRooms.setText(String.valueOf(slrRatioBigRooms.getValue()));
 
+        //initialising generator class
         Generator gen1 = new Generator();
+
+        //Toggle for render function, sets of an event
         btnRender.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -92,7 +70,7 @@ public class Main {
             }
         });
 
-
+        //events for updating gui values of sliders
         slrMaxRenderSize.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -106,6 +84,8 @@ public class Main {
                 lblMaxRenderSize.setText(String.valueOf(slrMaxRenderSize.getValue()));
             }
         });
+
+        //events for updating gui values of sliders
         slrMinBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -120,6 +100,8 @@ public class Main {
                 lblValueMinBigRooms.setText(String.valueOf(slrMinBigRooms.getValue()));
             }
         });
+
+        //events for updating gui values of sliders
         slrMaxBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -134,6 +116,8 @@ public class Main {
                 lblValueMaxBigRooms.setText(String.valueOf(slrMaxBigRooms.getValue()));
             }
         });
+
+        //events for updating gui values of sliders
         slrRatioBigRooms.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -148,6 +132,7 @@ public class Main {
             }
         });
 
+        //Toggle event for render, Start rendering 1 time per event
         checkBoxRunning.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -156,18 +141,15 @@ public class Main {
                     int aantalHalways = slrRatioBigRooms.getValue();
                     int aantalMinBigRooms = slrMinBigRooms.getValue();
                     int maxGroteTilesAantal = slrMaxRenderSize.getValue();
+                    boolean debugPixels = debugCheckBox.isSelected();
                     String FilePath = filePathTextbox.getText();
 
                     if (aantalBigroom < aantalMinBigRooms){
                         aantalBigroom = aantalMinBigRooms;
                     }
-
-                    System.out.println(aantalBigroom+" "+aantalHalways+" "+aantalMinBigRooms+" "+maxGroteTilesAantal);
-
-                    gen1.generate(aantalBigroom,aantalHalways,aantalMinBigRooms,maxGroteTilesAantal,FilePath);
-                    //gen1.generate(aantalBigroom,aantalHalways+2,aantalMinBigRooms,maxGroteTilesAantal);
+                    //initialising generate function
+                    gen1.generate(aantalBigroom,aantalHalways,aantalMinBigRooms,maxGroteTilesAantal,FilePath,debugPixels);
                 }
-
                 checkBoxRunning.setSelected(false);
             }
         });

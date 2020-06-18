@@ -47,6 +47,12 @@
               <text value="Rendering"/>
             </properties>
           </component>
+          <component id="cd5ce" class="javax.swing.JCheckBox" binding="debugCheckBox" default-binding="true">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value="Debug"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="da2b2" layout-manager="BorderLayout" hgap="0" vgap="0">

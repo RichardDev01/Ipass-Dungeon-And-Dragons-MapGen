@@ -7,7 +7,6 @@ https://www.javamex.com/tutorials/graphics/bufferedimage.shtml
  */
 //#TODO Mogelijk croppen
 
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,11 +31,12 @@ public class DrawMap {
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = result.getGraphics();
 
-    public DrawMap(List<Node> wayToTheEndRoom,List<Node>allNodes,boolean forceRender,String FilePath) {
+    public DrawMap(List<Node> wayToTheEndRoom,List<Node>allNodes,boolean forceRender,String FilePath, boolean debugPixels) {
         this.wayToTheEndRoom = wayToTheEndRoom;
         this.allNodes = allNodes;
         this.forceRender = forceRender;
         this.FilePath = FilePath;
+        this.debugPixels = debugPixels;
     }
 
     public List<Node> getWayToTheEndRoomChecked() {
@@ -417,10 +417,6 @@ public class DrawMap {
                 g.drawImage(bi, x-biLast.getWidth()/2-bi.getWidth()/2, y+biLast.getHeight()/2-bi.getHeight()/2, null);
                 continue;
             }
-                //default code
-//            g.drawImage(bi, x, y, null);
-//            //y = bi.getTileHeight();
-//            x += bi.getTileWidth();
 
             //code om van rand teresetten
             if(x > result.getWidth()){
@@ -457,6 +453,7 @@ public class DrawMap {
 
     private  void   debugPixels(int x, int y, BufferedImage bi){
         g.setColor(Color.WHITE);
+
         y +=bi.getHeight();
         g.drawRect(x+100,y-100,3,3);
         g.drawRect(x+100,y-bi.getHeight()+100,3,3);

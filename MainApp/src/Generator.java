@@ -64,36 +64,45 @@ public class Generator {
         bigRoomlist.add(bigRoom4);
 
     }
-    public void generate(int aantalBigroom,int aantalHalways,int aantalMinBigroom, int maxGroteTilesAantal, String FilePath){
+    //Main function of generating the map
+    /*
+    aantalBigroom = maximum times a bigroom can occur
+    aantalHalways = the ratio between bigrooms that exist of hallways, note, the drawmap function can add an additional tile if needed
+    aantalMinBigroom = the minimum amounts of bigrooms before there is a change of ending early with endroom
+    maxGroteTilesAantal = maximum render size in tiles/nodes
+    FilePath = resource path for files, used for texturepacks
+    debugPixels= Debuging mode for showing collisions
+     */
+    public void generate(int aantalBigroom,int aantalHalways,int aantalMinBigroom, int maxGroteTilesAantal, String FilePath, boolean debugPixels){
+        //Setting up the variables
         setup();
 
+        //Slight edit to variable
         aantalHalways = aantalHalways*aantalBigroom;
 
         //Creating Start and Endroom
         Node endRoom = new Node(30,"endRoom");
         Node startRoom = new Node(31,"startRoom");
 
-        //creating hallway list with trasistions
+        //Calculating chance for bigroom
         int  chanceForBigRoom = (aantalBigroom*100)/aantalHalways;
-        //System.out.println(chanceForBigRoom);
 
-        int chanceForHalway = 100-chanceForBigRoom;
+        //Calculating chance for Hallway
+        int chanceForHallway = 100-chanceForBigRoom;
 
-
-        int counterHalway =0;
+        //Creating hallway transisiton list
+        int counterHallway =0;
         for (var h : hallwaylist){
-            Transistion t1 = new Transistion(h,chanceForHalway,counterHalway);
+            Transistion t1 = new Transistion(h,chanceForHallway,counterHallway);
             transistionlistHallway.add(t1);
-            counterHalway++;
+            counterHallway++;
         }
-
 
         //adding hallways to hallways
         int counterBigroom = 20;
         for (var h : hallwaylist){
             //adding hallways to hallways
             for (var t : transistionlistHallway){
-
                 //filtering and checking if certain tiles can be connected or not, this can be improved
                 if (h.name.contains("NO") && t.n.name.contains("OZ")){
                     continue;
@@ -116,13 +125,13 @@ public class Generator {
                     hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
                     continue;
                 }
-
             }
         }
 
         //Adding code for bigroom trasistions
         for (var br : bigRoomlist){
             for (var t : transistionlistHallway){
+                //filtering and checking if certain tiles can be connected or not, this can be improved
                 if(t.n.name == "hallwayNW" || t.n.name == "hallwayZW"|| t.n.name == "hallwayOZ" || t.n.name == "hallwayNO"|| (t.n.name.contains("O"))==false){
                     continue;
                 }
@@ -141,6 +150,7 @@ public class Generator {
 
         //StartNode adding hallways
         for (var t : transistionlistHallway){
+            //Startroom only has a East exit so the next tile must have West
             if(t.n.name.contains("W")){
                 startRoom.addConnectie(t);
             }
@@ -151,27 +161,25 @@ public class Generator {
         allNodes.addAll(hallwaylist);
         allNodes.addAll(hallwayEndlist);
 
-
-        //TODO, make this a run void in main
-        //Creating the generator
-        //RandomMapGen fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom);
+        //Creating a Finite State machine and Drawmap class
         RandomMapGen fsmR2 = null;
-        //DrawMap dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false);
         DrawMap dm1 = null;
+
+        //Initialising render proces with maximum count to "see while Statement"
         boolean check = false;
         int counterOfSimulations = 1;
         while (check==false && counterOfSimulations<10){
             System.out.println("sim: "+ counterOfSimulations);
             fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
-            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false,FilePath);
+            dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false,FilePath,debugPixels);
             dm1.nodesToString();
             check = dm1.run();
             counterOfSimulations++;
         }
+        //if the machine tried to render 10 times and failed, display tekst
         if (counterOfSimulations ==10){
             System.out.println("couldn't make map, plz try again");
             System.out.println("latest result has been dumped");
         }
-
     }
 }
