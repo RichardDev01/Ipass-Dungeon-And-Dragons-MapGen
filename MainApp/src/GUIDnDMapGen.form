@@ -68,7 +68,8 @@
               <component id="8fad1" class="javax.swing.JSlider" binding="slrRatioBigRooms">
                 <constraints border-constraint="South"/>
                 <properties>
-                  <maximum value="5"/>
+                  <maximum value="4"/>
+                  <minimum value="1"/>
                   <paintTicks value="true"/>
                   <snapToTicks value="true"/>
                   <value value="2"/>
@@ -102,6 +103,7 @@
                         <constraints border-constraint="South"/>
                         <properties>
                           <maximum value="8"/>
+                          <minimum value="1"/>
                           <paintTicks value="true"/>
                           <value value="2"/>
                         </properties>

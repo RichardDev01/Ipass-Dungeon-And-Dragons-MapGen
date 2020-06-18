@@ -157,6 +157,11 @@ public class Main {
                     int aantalMinBigRooms = slrMinBigRooms.getValue();
                     int maxGroteTilesAantal = slrMaxRenderSize.getValue();
                     String FilePath = filePathTextbox.getText();
+
+                    if (aantalBigroom < aantalMinBigRooms){
+                        aantalBigroom = aantalMinBigRooms;
+                    }
+
                     System.out.println(aantalBigroom+" "+aantalHalways+" "+aantalMinBigRooms+" "+maxGroteTilesAantal);
 
                     gen1.generate(aantalBigroom,aantalHalways,aantalMinBigRooms,maxGroteTilesAantal,FilePath);
