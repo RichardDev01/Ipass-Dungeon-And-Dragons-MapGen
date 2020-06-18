@@ -141,7 +141,7 @@ public class DrawMapTest {
 
     @Test
     public void run() {
-        FilePath = "./Resources/default";
+        FilePath = "../Resources/default";
         ArrayList<Node> checkNodes = new ArrayList<>();
         checkNodes.add(startRoom);
         checkNodes.addAll(allNodes);
@@ -159,13 +159,13 @@ public class DrawMapTest {
         dm1.nodesToString();
         dm1.run();
 
-        //Check of reult == stock image
+        //Check of result == stock image
 
     }
 
     @Test
     public void checkFreeSpace() {
-        FilePath = "./Resources/Default";
+        FilePath = "../Resources/Default";
         ArrayList<Node> checkNodes = new ArrayList<>();
         checkNodes.add(startRoom);
         checkNodes.addAll(allNodes);
@@ -173,8 +173,8 @@ public class DrawMapTest {
         DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath);
 
         BufferedImage debugImg =null;
-        //String FilePathToImage = "./Resources/debug/debugpic.png";
-        String FilePathToImage = "./Test/debugpic.png";
+        String FilePathToImage = "../Resources/debug/debugpic.png";
+
         try { debugImg = ImageIO.read(new File(FilePathToImage)); } catch (IOException e) { e.printStackTrace(); }
 
         assertTrue(dm1.checkFreeSpace(50,50,debugImg)); //Top left

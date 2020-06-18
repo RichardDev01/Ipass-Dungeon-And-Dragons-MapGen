@@ -148,8 +148,8 @@ public class DrawMap {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (previous.contains("O")&&colisionCheck(x,y-biLast.getHeight(),bi)== false){
-                    if (colisionCheck(x,y-biLast.getHeight(),bi)== true){
+                if (previous.contains("O")&& collisionCheck(x,y-biLast.getHeight(),bi)== false){
+                    if (collisionCheck(x,y-biLast.getHeight(),bi)== true){
                         overLappingCheck = true;
                     }
                     g.drawImage(bi, x, y-biLast.getHeight(), null);
@@ -162,7 +162,7 @@ public class DrawMap {
                     continue;
                 }
                 else if (previous.contains("Z")){
-                    if (colisionCheck(x-biLast.getTileWidth()*2,y+biLast.getHeight(),bi)== true){
+                    if (collisionCheck(x-biLast.getTileWidth()*2,y+biLast.getHeight(),bi)== true){
                         overLappingCheck = true;
                     }
 
@@ -178,7 +178,7 @@ public class DrawMap {
                 }
                 //else if (previous.contains("N")&& colisionCheck(x-biLast.getTileWidth()*2,y-biLast.getHeight()*2,bi)== false){
                 else if (previous.contains("N")){
-                    if (colisionCheck(x-biLast.getTileWidth()*2,y-biLast.getHeight()*2,bi)== true){
+                    if (collisionCheck(x-biLast.getTileWidth()*2,y-biLast.getHeight()*2,bi)== true){
                         overLappingCheck = true;
                     }
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
@@ -192,7 +192,7 @@ public class DrawMap {
 
                 else if (previous.contains("W")){
                     //Buggy als de pest (Dev note)
-                    if (colisionCheck(x-(bi.getWidth()+biLast.getWidth())-20,y+20,bi)== true){
+                    if (collisionCheck(x-(bi.getWidth()+biLast.getWidth())-20,y+20,bi)== true){
                         falsePositiveCheck = true;
                         System.out.println("check Bigrooms");
                     }
@@ -255,18 +255,21 @@ public class DrawMap {
 
                 if(image.contains("hallwayNOZW")&&previous.contains("ZW")){
                     g.drawImage(bi, x-bi.getTileWidth()*2, y, null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y, bi);}
                     x -= biLast.getTileWidth()*3;
                     y -= bi.getHeight();
                     continue;
                 }
                 if(image.contains("hallwayNOZW")&&previous.contains("Z")){
                     g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+biLast.getTileHeight(), bi);}
                     //x += biLast.getTileWidth();
                     y += bi.getHeight();
                     continue;
                 }
                 if(image.contains("hallwayNOZW")&&previous.contains("NW")){
                     g.drawImage(bi, x-bi.getTileWidth()*2, y+biLast.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y+biLast.getTileHeight(), bi);}
                     x -= biLast.getTileWidth()*2;
                     y += bi.getHeight()*2;
                     continue;
@@ -275,13 +278,15 @@ public class DrawMap {
                 if (previous.contains("bigRoom") && image.contains("hallwayNOZW")){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
+                    if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getTileWidth();
                     continue;
                 }
 
-                if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&&colisionCheck(x-bi.getWidth(),y,bi)== false){
+                if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&& collisionCheck(x-bi.getWidth(),y,bi)== false){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y-bi.getTileHeight(), bi);}
                     //x += biLast.getTileWidth();
                     y -= bi.getHeight();
                     continue;
@@ -289,14 +294,16 @@ public class DrawMap {
 
 
                 if (previous.contains("bigRoom") && image.contains("hallwayOZ") && (image.contains("W")==false)){
-                    g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
+                    g.drawImage(bi, x-bi.getWidth(), y-bi.getHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y-bi.getHeight(), bi);}
                     x += bi.getTileWidth();
                     y -= bi.getHeight()*2;
                     continue;
                 }
                 if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&&(image.contains("W")==false)){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
                     //x += bi.getTileWidth();
                     y += biLast.getHeight();
 
@@ -305,25 +312,28 @@ public class DrawMap {
 
                 if (previous.contains("bigRoom") && image.contains("hallwayNO")&&(image.contains("W")==false) &&(image.contains("Z")==false)){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
-                    //x += bi.getTileWidth();
+                    g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
+                    //x += bi.getWidth();
                     y += biLast.getHeight();
 
                     continue;
                 }
 
                 if(previous.contains("bigRoom") && image.contains("W")){
-                    if (colisionCheck(x,y+50,bi)== true){
+                    if (collisionCheck(x,y+50,bi)== true){
                         System.out.println("error?");
                     }
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
+                    if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getWidth();
                     continue;
                 }
-                if(previous.contains("bigRoom") && image.contains("N")&&colisionCheck(x-bi.getTileWidth()+10,y+biLast.getTileHeight()+10,bi)== false){
+                if(previous.contains("bigRoom") && image.contains("N")&& collisionCheck(x-bi.getTileWidth()+10,y+biLast.getTileHeight()+10,bi)== false){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+biLast.getTileHeight(), bi);}
                     //x += bi.getTileWidth();
                     y += biLast.getHeight();
                     continue;
@@ -335,15 +345,17 @@ public class DrawMap {
                 if((image.contains("NZW")) && previous.contains("NOZW")){
                     creatEndsHallways(x-bi.getTileWidth(),y+bi.getTileHeight(),biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y+bi.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+bi.getTileHeight(), bi);}
                     //x += biLast.getTileWidth();
                     y += bi.getHeight();
 
                     continue;
                 }
 
-                if(image.contains("W")&&previous.contains("O")&& colisionCheck(x+bi.getTileWidth()-10,y,bi)== false){
+                if(image.contains("W")&&previous.contains("O")&& collisionCheck(x+bi.getTileWidth()-10,y,bi)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
+                    if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getWidth();
                     //y -= bi.getHeight();
                     continue;
@@ -352,26 +364,28 @@ public class DrawMap {
                 if((image.contains("N")) && previous.contains("Z")){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y+bi.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+bi.getTileHeight(), bi);}
                     //x += biLast.getTileWidth();
                     y += bi.getHeight();
                     continue;
                 }
 
-                if(image.contains("O")&&previous.contains("W")&& colisionCheck(x-bi.getTileWidth()*2,y+bi.getHeight(),bi)== false){
+                if(image.contains("O")&&previous.contains("W")&& collisionCheck(x-bi.getTileWidth()*2,y+bi.getHeight(),bi)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth()*2, y, null);
-
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y, bi);}
                     x -= bi.getTileWidth();
                     //y -= bi.getHeight();
                     continue;
                 }
 
-                if((image.contains("Z")) && previous.contains("N") && colisionCheck(x-bi.getTileWidth(),y-bi.getTileHeight(),bi)== false){
-                    if (colisionCheck(x-bi.getTileWidth(),y-bi.getTileHeight(),bi)== true){
+                if((image.contains("Z")) && previous.contains("N") && collisionCheck(x-bi.getTileWidth(),y-bi.getTileHeight(),bi)== false){
+                    if (collisionCheck(x-bi.getTileWidth(),y-bi.getTileHeight(),bi)== true){
                         overLappingCheck = true;
                     }
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
+                    if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y-bi.getTileHeight(), bi);}
                     //x += biLast.getTileWidth();
                     y -= bi.getHeight();
 
@@ -381,6 +395,7 @@ public class DrawMap {
                 if(image.contains("W")&& previous.contains("O")){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
+                    if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getTileWidth();
                     //y += bi.getHeight();
 
@@ -429,7 +444,7 @@ public class DrawMap {
         }
     }
 
-    private  boolean colisionCheck(int x, int y , BufferedImage bi){
+    private  boolean collisionCheck(int x, int y , BufferedImage bi){
         //Bottom left, Top Left, Bottom Right, Top Right
         if(checkFreeSpace(x+100,y-100,result)==false ||
                 checkFreeSpace(x+100,y-bi.getHeight()+100,result)==false ||
@@ -496,7 +511,7 @@ public class DrawMap {
         }
     }
 
-
+//Deze functie
     private void creatEndsHallways(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
         if (previous.contains("N")){
             if (checkFreeSpace(x-biLast.getWidth(),y-biLast.getHeight(),result)==true){
@@ -525,7 +540,11 @@ public class DrawMap {
     }
 
 
-
+    /*
+    Geef de x en y waarden op met de image
+    Deze functie controleerd de x en y met 1 pixel links boven in(normaal is deze zwart)
+    Als dit niet overeen komt, dan return false
+    */
     public boolean checkFreeSpace(int x, int y, BufferedImage img){
         Color black = new Color(img.getRGB(2, 2));
         Color colCompare = new Color(img.getRGB(x, y));
