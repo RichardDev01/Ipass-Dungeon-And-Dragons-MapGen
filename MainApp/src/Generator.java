@@ -6,7 +6,7 @@ public class Generator {
     ArrayList<Node> hallwayEndlist = new ArrayList<>();
     ArrayList<Node> bigRoomlist = new ArrayList<>();
     ArrayList<Transistion> transistionlistHallway = new ArrayList<>();
-    ArrayList<Transistion> transistionlistBigRoom = new ArrayList<>();
+
 
     private void setup(){
         //Creating Nodes (tilessets)
@@ -99,7 +99,6 @@ public class Generator {
         }
 
         //adding hallways to hallways
-        int counterBigroom = 20;
         for (var h : hallwaylist){
             //adding hallways to hallways
             for (var t : transistionlistHallway){
@@ -123,7 +122,6 @@ public class Generator {
                 }
                 if(h.name.contains("N") && t.n.name.contains("Z")){
                     hallwaylist.get(hallwaylist.indexOf(h)).addConnectie(t);
-                    continue;
                 }
             }
         }
@@ -132,7 +130,7 @@ public class Generator {
         for (var br : bigRoomlist){
             for (var t : transistionlistHallway){
                 //filtering and checking if certain tiles can be connected or not, this can be improved
-                if(t.n.name == "hallwayNW" || t.n.name == "hallwayZW"|| t.n.name == "hallwayOZ" || t.n.name == "hallwayNO"|| (t.n.name.contains("O"))==false){
+                if(t.n.name.equals("hallwayNW") || t.n.name.equals("hallwayZW") || t.n.name.equals("hallwayOZ") || t.n.name.equals("hallwayNO") || !(t.n.name.contains("O"))){
                     continue;
                 }
                 bigRoomlist.get(bigRoomlist.indexOf(br)).addConnectie(t);
@@ -162,13 +160,13 @@ public class Generator {
         allNodes.addAll(hallwayEndlist);
 
         //Creating a Finite State machine and Drawmap class
-        RandomMapGen fsmR2 = null;
-        DrawMap dm1 = null;
+        RandomMapGen fsmR2;
+        DrawMap dm1;
 
         //Initialising render proces with maximum count to "see while Statement"
         boolean check = false;
         int counterOfSimulations = 1;
-        while (check==false && counterOfSimulations<10){
+        while (!check && counterOfSimulations<10){
             System.out.println("sim: "+ counterOfSimulations);
             fsmR2 = new RandomMapGen(allNodes,aantalBigroom,aantalMinBigroom,aantalHalways);
             dm1 = new DrawMap(fsmR2.run(startRoom,maxGroteTilesAantal,endRoom),allNodes,false,FilePath,debugPixels);
