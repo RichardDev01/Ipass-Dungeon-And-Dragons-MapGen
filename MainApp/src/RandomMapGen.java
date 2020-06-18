@@ -86,7 +86,6 @@ public class RandomMapGen {
                 }
 
             } else {// Else, the end of path has been reached
-                //System.out.println("end node = "+currentNode);  //oude code
                 break; //Exit while loop because the end of path has been reached
             }
 
