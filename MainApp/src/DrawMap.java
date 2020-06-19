@@ -17,20 +17,28 @@ import java.util.List;
 
 public class DrawMap {
 
-    private  List<Node> allNodes = new ArrayList<>();
-    private List<Node> wayToTheEndRoom = new ArrayList<>();  // Array of all nodes.
-    private List<Node> wayToTheEndRoomChecked = new ArrayList<>();  // Array of all nodes after pathchecking.
-    private int width = 8000;
-    private int height = 8000;
-    private boolean forceRender = false;
-    private boolean debugPixels = true;
-    private boolean overLappingCheck = false;
-    private boolean falsePositiveCheck = false;
-    private String FilePath = "./Resources/default";
-    public  List<String> images= new ArrayList<>();
-    BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    Graphics g = result.getGraphics();
+    private  List<Node> allNodes;                                                         // Array of all nodes
+    private List<Node> wayToTheEndRoom;                                                   // Array of all nodes to end.
+    private List<Node> wayToTheEndRoomChecked = new ArrayList<>();                        // Array of all nodes to end after pathchecking.
+    private int width = 8000;                                                             // Image Width
+    private int height = 8000;                                                            // Image Height
+    private boolean forceRender;                                                          // ForceRender forces the program to ignore safety and places tiles on top of each other if need (useful for debugging)
+    private boolean debugPixels;                                                          // Displays collision checking Pixels (useful for debugging)
+    private boolean overLappingCheck = false;                                             // Error boolean, if true, re-run program
+    private boolean falsePositiveCheck = false;                                           // Error Boolean, but this one is used for debuging
+    private String FilePath = "./Resources/default";                                      // Filepath for resources
+    public  List<String> images= new ArrayList<>();                                       // List of Strings of tile image resources
+    BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);  // Creating an buffered to write to
+    Graphics g = result.getGraphics();                                                    // Creating a graphics class to write with to the buffered image
 
+
+    /*
+    wayToTheEndRoom =Array of all nodes to end
+    allNodes        =Array of all nodes
+    forceRender     =ForceRender forces the program to ignore safety and places tiles on top of each other if need (useful for debugging)
+    FilePath        =Filepath for resources
+    debugPixels     =Displays collision checking Pixels (useful for debugging)
+     */
     public DrawMap(List<Node> wayToTheEndRoom,List<Node>allNodes,boolean forceRender,String FilePath, boolean debugPixels) {
         this.wayToTheEndRoom = wayToTheEndRoom;
         this.allNodes = allNodes;
@@ -39,21 +47,27 @@ public class DrawMap {
         this.debugPixels = debugPixels;
     }
 
+    //Get List of Nodes of all nodes to end
     public List<Node> getWayToTheEndRoomChecked() {
         return wayToTheEndRoomChecked;
     }
 
+    //Set List of Nodes of all nodes to end
     public void setWayToTheEndRoom(List<Node> wayToTheEndRoom) {
         this.wayToTheEndRoom = wayToTheEndRoom;
     }
 
+    //Add Image String to List of Strings of tile image resources (useful for debugging)
     public void addImages(String s) {
         images.add(s);
     }
 
+    //Transforms nodes list (wayToTheEndRoom) to image List (strings of tiles)
     public void nodesToString(){
-        images.clear();
-        checkPath();
+        images.clear(); //Clear image list
+        checkPath();    //Small check if path can work (this can be expanded)
+
+        //Read name from nodes and makes filtepath to tile images
         for(var node : wayToTheEndRoomChecked){
             if (node.name.contains("startRoom")){
                 images.add(FilePath+"/"+node.name+"/"+node.name+".png");
@@ -68,18 +82,21 @@ public class DrawMap {
                 images.add(FilePath+"/"+node.name+"s/"+node.name+".png");
             }
         }
-        System.out.println(images);
+        System.out.println(images); //Debug printout, usefull
     }
 
     public void checkPath(){
         int indexOfList =0;
-        System.out.println(wayToTheEndRoom);
-        Node fixNode = new Node(99,"hallwayNOZW");
-        Node fixNode2 = new Node(100,"hallwayNOZ");
+        System.out.println(wayToTheEndRoom);                    //List of nodes before
+        Node fixNode = new Node(99,"hallwayNOZW");     //fixNode 1
+        Node fixNode2 = new Node(100,"hallwayNOZ");    //fixNode 2
+
+        //iterate over nodes list
         for (var node : wayToTheEndRoom){
-            //System.out.println(node);
             indexOfList++;
-            wayToTheEndRoomChecked.add(node);
+            wayToTheEndRoomChecked.add(node); // adding node to list
+
+            //checking nodes before a bigroom and add node if statement is true
             if(node.name.contains("bigRoom")){
                 if (wayToTheEndRoom.get(indexOfList-1).name.contains("N")&&wayToTheEndRoom.get(indexOfList).name.contains("N")){
                     wayToTheEndRoomChecked.add(indexOfList,fixNode);
@@ -91,17 +108,18 @@ public class DrawMap {
                 }
             }
         }
-        System.out.println(wayToTheEndRoomChecked);
+        System.out.println(wayToTheEndRoomChecked);             //List of nodes after
     }
 
+    //Running the draw map function
     public boolean run() {
 
+        //Starting coordinates of placing tiles
         int x =600;
         int y =4000;
-        //System.out.println(images);
         int index = 0;
 
-        //Create dead ends
+        //Create dead ends images
         BufferedImage biEndN =null;
         BufferedImage biEndO =null;
         BufferedImage biEndZ =null;
@@ -113,41 +131,40 @@ public class DrawMap {
 
         for(String image : images){
 
+            //if collision is detected and force Render is off, set of error
             if (overLappingCheck ==true && forceRender == false){
                 System.out.println("error making a map");
                 return false;
             }
 
+            //Check if current tile has more than 2 ends, if so, render the map (this is for collision detection)
             if (image.length() - image.lastIndexOf("l")<13 &&image.length() - image.lastIndexOf("l")>10 ){
                 render();
             }
 
             index++;
-            System.out.println(image);
-            BufferedImage bi = null;
-            BufferedImage biLast = null;
-            try {
-                bi = ImageIO.read(new File(image));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            System.out.println(image);  //Debug string for current tile that wants to be placed
+            BufferedImage bi = null;    //current image to buffered image
+            BufferedImage biLast = null;//Previous image to buffered image (this only happens after the first 2 tiles*)
+            try { bi = ImageIO.read(new File(image)); } catch (IOException e) { e.printStackTrace(); }
 
+            //Place startRoom and tile after that next to each other ->
             if(index == 1 ||index == 2 ){
                 g.drawImage(bi, x, y, null);
                 if(debugPixels == true){debugPixels(x, y, bi);}
                 x += bi.getTileWidth();
+                //y = y;
                 continue;
             }
 
-            //add pixelchecker
             //Code for bigroom placement
             if(image.contains("bigRoom")){
+
+                //writing Previous image to buffered image
                 String previous = images.get(index-2);
-                try {
-                    biLast = ImageIO.read(new File(previous));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
+
+                //Place bigroom ro the right ->
                 if (previous.contains("O")&& collisionCheck(x,y-biLast.getHeight(),bi)== false){
                     if (collisionCheck(x,y-biLast.getHeight(),bi)== true){
                         overLappingCheck = true;
@@ -161,6 +178,8 @@ public class DrawMap {
                     y -= biLast.getHeight();
                     continue;
                 }
+
+                //place bigroom ↓
                 else if (previous.contains("Z")){
                     if (collisionCheck(x-biLast.getTileWidth()*2,y+biLast.getHeight(),bi)== true){
                         overLappingCheck = true;
@@ -172,10 +191,12 @@ public class DrawMap {
 
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
 
-                    //x -= biLast.getTileWidth()*2;
+                    //x = x;
                     y += biLast.getHeight();
                     continue;
                 }
+
+                //place bigroom ↑
                 //else if (previous.contains("N")&& colisionCheck(x-biLast.getTileWidth()*2,y-biLast.getHeight()*2,bi)== false){
                 else if (previous.contains("N")){
                     if (collisionCheck(x-biLast.getTileWidth()*2,y-biLast.getHeight()*2,bi)== true){
@@ -185,11 +206,12 @@ public class DrawMap {
                     g.drawImage(bi, x-bi.getTileWidth()*2, y-biLast.getHeight()*2, null);
                     if(debugPixels == true){debugPixels(x-biLast.getTileWidth()*2, y-biLast.getHeight()*2, bi);}
 
-                    //x += bi.getTileWidth();
+                    //x = x;
                     y -= bi.getHeight();
                     continue;
                 }
 
+                // place bigroom <-
                 else if (previous.contains("W")){
                     //Buggy als de pest (Dev note)
                     if (collisionCheck(x-(bi.getWidth()+biLast.getWidth())-20,y+20,bi)== true){
@@ -207,23 +229,30 @@ public class DrawMap {
                     continue;
                 }
 
+                //if you come to here, well, there has been a placeing error
                 System.out.println("where do i fit? #error");
                 falsePositiveCheck = true;
                 overLappingCheck = true;
             }
 
+            //code for place hallways
             if(image.contains("hallway")){
+                //writing Previous image to buffered image
                 String previous = images.get(index-2);
-                try {
-                    biLast = ImageIO.read(new File(previous));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if(image.contains("hallwayNOZW")&&previous.contains("hallwayNOZW")){
+                try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
+
+                //place specific tile ↑ from previous
+                if(image.contains("hallwayNOZW")&&previous.contains("NZW")){
+                    creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
+                    g.drawImage(bi, x-biLast.getWidth(), y-biLast.getHeight(), null);
+                    if(debugPixels == true){debugPixels(x-biLast.getWidth(), y-biLast.getHeight(), bi);}
+                    //x = x;
+                    y -= biLast.getHeight();
                     continue;
                 }
 
-                if(image.contains("hallwayNOZW")&&previous.contains("NZW")){
+                //place specific tile ↑ from previous
+                if(image.contains("hallwayNOZW")&&previous.contains("NZ")){
 
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-biLast.getWidth(), y-biLast.getHeight(), null);
@@ -232,27 +261,18 @@ public class DrawMap {
                     y -= biLast.getHeight();
                     continue;
                 }
-                if(image.contains("hallwayNOZW")&&previous.contains("NZ")){
 
-                    creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-biLast.getWidth(), y-biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-biLast.getWidth(), y-biLast.getHeight(), bi);}
-
-                    x += bi.getWidth();
-                    y -= biLast.getHeight()*2;
-                    continue;
-                }
-
+                //place specific tile → from previous
                 if(image.contains("hallwayNOZW")&&previous.contains("O")){
-
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
                     if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getWidth();
-                    //y -= biLast.getHeight();
+                    //y = y;
                     continue;
                 }
 
+                //place specific tile ← from previous
                 if(image.contains("hallwayNOZW")&&previous.contains("ZW")){
                     g.drawImage(bi, x-bi.getTileWidth()*2, y, null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y, bi);}
@@ -260,13 +280,17 @@ public class DrawMap {
                     y -= bi.getHeight();
                     continue;
                 }
+
+                //place specific tile ↓ from previous
                 if(image.contains("hallwayNOZW")&&previous.contains("Z")){
                     g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+biLast.getTileHeight(), bi);}
-                    //x += biLast.getTileWidth();
+                    //x = x;
                     y += bi.getHeight();
                     continue;
                 }
+
+                //place specific tile ← from previous
                 if(image.contains("hallwayNOZW")&&previous.contains("NW")){
                     g.drawImage(bi, x-bi.getTileWidth()*2, y+biLast.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y+biLast.getTileHeight(), bi);}
@@ -275,24 +299,27 @@ public class DrawMap {
                     continue;
                 }
 
+                //place specific tile after bigroom → from previous
                 if (previous.contains("bigRoom") && image.contains("hallwayNOZW")){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
                     if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getTileWidth();
+                    //y = y;
                     continue;
                 }
 
+                //place specific tile after bigroom ↑ from previous
                 if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&& collisionCheck(x-bi.getWidth(),y,bi)== false){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y-bi.getTileHeight(), bi);}
-                    //x += biLast.getTileWidth();
+                    //x =x;
                     y -= bi.getHeight();
                     continue;
                 }
 
-
+                //place specific tile after bigroom ↑ from previous
                 if (previous.contains("bigRoom") && image.contains("hallwayOZ") && (image.contains("W")==false)){
                     g.drawImage(bi, x-bi.getWidth(), y-bi.getHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth(), y-bi.getHeight(), bi);}
@@ -300,26 +327,28 @@ public class DrawMap {
                     y -= bi.getHeight()*2;
                     continue;
                 }
+
+                //place specific tile after bigroom ↓ from previous
                 if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&&(image.contains("W")==false)){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
-                    //x += bi.getTileWidth();
+                    //x = x;
                     y += biLast.getHeight();
-
                     continue;
                 }
 
+                //place specific tile after bigroom ↓ from previous
                 if (previous.contains("bigRoom") && image.contains("hallwayNO")&&(image.contains("W")==false) &&(image.contains("Z")==false)){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
-                    //x += bi.getWidth();
+                    //x = x;
                     y += biLast.getHeight();
-
                     continue;
                 }
 
+                //place specific tile after bigroom → from previous
                 if(previous.contains("bigRoom") && image.contains("W")){
                     if (collisionCheck(x,y+50,bi)== true){
                         System.out.println("error?");
@@ -328,118 +357,111 @@ public class DrawMap {
                     g.drawImage(bi, x, y, null);
                     if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getWidth();
+                    //y = y
                     continue;
                 }
+
+                //place specific tile after bigroom ↓ from previous
                 if(previous.contains("bigRoom") && image.contains("N")&& collisionCheck(x-bi.getTileWidth()+10,y+biLast.getTileHeight()+10,bi)== false){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+biLast.getTileHeight(), bi);}
-                    //x += bi.getTileWidth();
+                    //x = x;
                     y += biLast.getHeight();
                     continue;
                 }
 
+                //if code somehow doesn't make endrooms after bigroom, execute this code
                 if (previous.contains("bigRoom")){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                 }
+
+                //place specific tile ↓ from previous
                 if((image.contains("NZW")) && previous.contains("NOZW")){
                     creatEndsHallways(x-bi.getTileWidth(),y+bi.getTileHeight(),biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y+bi.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+bi.getTileHeight(), bi);}
-                    //x += biLast.getTileWidth();
+                    //x = x;
                     y += bi.getHeight();
-
                     continue;
                 }
 
+                //place specific tile → from previous
                 if(image.contains("W")&&previous.contains("O")&& collisionCheck(x+bi.getTileWidth()-10,y,bi)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
                     if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getWidth();
-                    //y -= bi.getHeight();
+                    //y = y;
                     continue;
                 }
 
+                //place specific tile ↓ from previous
                 if((image.contains("N")) && previous.contains("Z")){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y+bi.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y+bi.getTileHeight(), bi);}
-                    //x += biLast.getTileWidth();
+                    //x = x;
                     y += bi.getHeight();
                     continue;
                 }
 
+                //place specific tile ← from previous
                 if(image.contains("O")&&previous.contains("W")&& collisionCheck(x-bi.getTileWidth()*2,y+bi.getHeight(),bi)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth()*2, y, null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y, bi);}
                     x -= bi.getTileWidth();
-                    //y -= bi.getHeight();
+                    //y = y;
                     continue;
                 }
 
+                //place specific tile ↑ from previous
                 if((image.contains("Z")) && previous.contains("N") && collisionCheck(x-bi.getTileWidth(),y-bi.getTileHeight(),bi)== false){
-                    if (collisionCheck(x-bi.getTileWidth(),y-bi.getTileHeight(),bi)== true){
-                        overLappingCheck = true;
-                    }
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getTileWidth(), y-bi.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth(), y-bi.getTileHeight(), bi);}
-                    //x += biLast.getTileWidth();
+                    //x = x;
                     y -= bi.getHeight();
 
                     continue;
                 }
 
-                if(image.contains("W")&& previous.contains("O")){
-                    creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x, y, null);
-                    if(debugPixels == true){debugPixels(x, y, bi);}
-                    x += bi.getTileWidth();
-                    //y += bi.getHeight();
-
-                    continue;
-                }
-                System.out.println("i dont fit me stupid tile");
+                System.out.println("i dont fit me stupid tile ಠ_ಠ");
                 overLappingCheck = true;
                 index --;
             }
 
+            //Places endRoom in center of lastroom (should be a bigroom).. those are chest
             if(image.contains("endRoom")){
                 String previous = images.get(index-2);
-                try {
-                    biLast = ImageIO.read(new File(previous));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
                 creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                 g.drawImage(bi, x-biLast.getWidth()/2-bi.getWidth()/2, y+biLast.getHeight()/2-bi.getHeight()/2, null);
                 continue;
             }
 
-            //code om van rand teresetten
+            //if the dungeon somehow reached the edge of the canvas, roll back to the left
             if(x > result.getWidth()){
                 x = 0;
                 y += bi.getTileHeight();
             }
         }
-        try {
-            ImageIO.write(result,"png",new File("result.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        render();
+
         return true;
     }
 
+    //Write buffered image to i/o.. Render image
     private void render(){
-        try {
-            ImageIO.write(result,"png",new File("result.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try { ImageIO.write(result,"png",new File("result.png")); } catch (IOException e) { e.printStackTrace(); }
     }
 
+    /*
+    x   = The starting location of x
+    y   = The starting location of y
+    bi  = The image that you want to draw or collision check with
+     */
     private  boolean collisionCheck(int x, int y , BufferedImage bi){
         //Bottom left, Top Left, Bottom Right, Top Right
         if(checkFreeSpace(x+100,y-100,result)==false ||
@@ -451,6 +473,12 @@ public class DrawMap {
         return false;
     }
 
+    /*
+    x   = The starting location of x
+    y   = The starting location of y
+    bi  = The image that you want to draw or collision check with
+    Renders debug pixels on top of tiles
+    */
     private  void   debugPixels(int x, int y, BufferedImage bi){
         g.setColor(Color.WHITE);
 
@@ -461,6 +489,17 @@ public class DrawMap {
         g.drawRect(x+bi.getTileWidth()-100,y-bi.getHeight()+100,3,3);
     }
 
+    /*
+    Use this function after the tile is placed after the bigroom
+    x = topright of cordinate of bigroom
+    y = topright of cordinate of bigroom
+    biEndN = Dead end North
+    biEndO = Dead end East
+    biEndZ = Dead end South
+    biEndW = Dead end West
+    biLast = previous image (Bigroom)
+    previous =/ unused
+     */
     private void creatEndsBigRoomsself(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
             if (checkFreeSpace(x-biLast.getWidth()/2+10,y-biLast.getHeight()/2+10,result)==true){
                 g.drawImage(biEndZ, x-biLast.getWidth()/2, y-biLast.getHeight()/2, null);
@@ -480,7 +519,17 @@ public class DrawMap {
             }
     }
 
-
+    /*
+    Use this function after placing a bigroom to make dead ends for the tile before the bigroom
+    x = topright of cordinate of last tile
+    y = topright of cordinate of last tile
+    biEndN = Dead end North
+    biEndO = Dead end East
+    biEndZ = Dead end South
+    biEndW = Dead end West
+    biLast = previous image
+    previous = Read exits of previous tile where dead ends can be placed
+     */
     private void creatEndsBigRooms(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
         if (previous.contains("N")){
             if (checkFreeSpace(x-biLast.getWidth(),y-biLast.getHeight(),result)==true){
@@ -508,7 +557,17 @@ public class DrawMap {
         }
     }
 
-//Deze functie
+    /*
+    Use this function after placing a hallway tile to make dead ends for the tile before hand
+    x = topright of cordinate of last tile
+    y = topright of cordinate of last tile
+    biEndN = Dead end North
+    biEndO = Dead end East
+    biEndZ = Dead end South
+    biEndW = Dead end West
+    biLast = previous image
+    previous = Read exits of previous tile where dead ends can be placed
+     */
     private void creatEndsHallways(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
         if (previous.contains("N")){
             if (checkFreeSpace(x-biLast.getWidth(),y-biLast.getHeight(),result)==true){
@@ -536,12 +595,12 @@ public class DrawMap {
         }
     }
 
-
     /*
-    Geef de x en y waarden op met de image
-    Deze functie controleerd de x en y met 1 pixel links boven in(normaal is deze zwart)
-    Als dit niet overeen komt, dan return false
-    */
+    checks if given coordinate is free by comparing the colour on the top left(this should be black by default)
+    x   = Coordinate you want to check
+    y   = Coordinate you want to check
+    img = What image you want to check
+     */
     public boolean checkFreeSpace(int x, int y, BufferedImage img){
         Color black = new Color(img.getRGB(2, 2));
         Color colCompare = new Color(img.getRGB(x, y));
