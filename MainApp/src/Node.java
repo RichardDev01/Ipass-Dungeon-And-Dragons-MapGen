@@ -3,16 +3,18 @@ import java.util.ArrayList;
 
 
 public class Node {
-    public int id;
-    public String name;
-    public ArrayList<Transistion> connectedNodes = new ArrayList<Transistion>();
-    private int MaxRandomnummer;
+    public int id;                                                          //Id of Node
+    public String name;                                                     //Name of Node
+    public ArrayList<Transistion> connectedNodes = new ArrayList<>();       //Array list of transition from this node to other nodes
+    private int MaxRandomnummer;                                            //Integer for calculation MaxRandomnumber
 
+    //Node constructor
     public Node(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    //Add Transition tonode
     public void addConnectie(Transistion t){
         connectedNodes.add(t);
     }
@@ -27,14 +29,15 @@ public class Node {
         return MaxRandomnummer;
     }
 
+    //Selecting the next Node with an integer (this integer can be a specific number or use a random number between 0 and (getSumMaxRandomnummer) function)
     public Node randomTransistion(int pointer) {
         int target = getSumMaxRandomnummer();
         int index = 0;
+        // if there is no transisiton, return null
         if (getSumMaxRandomnummer() == 0) {
             return null;
         } else {
-
-            //met behulp van een pointer steeds dichter naar de juiste node gaan (note, dit gaan van upper naar lower)
+            //using a pointer to move closer to provided int(it counts from upper limit to lower)
             for (var transistion : connectedNodes) {
                 if (pointer > target) {
                     index = connectedNodes.indexOf(transistion) - 1;
@@ -56,6 +59,7 @@ public class Node {
         return  name;
     }
 
+    //Debug function with feedback of chances
     public String getChance(){
         DecimalFormat df = new DecimalFormat("0.00");
         String result;
