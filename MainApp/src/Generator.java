@@ -7,7 +7,6 @@ public class Generator {
     ArrayList<Node> bigRoomlist = new ArrayList<>();
     ArrayList<Transistion> transistionlistHallway = new ArrayList<>();
 
-
     private void setup(){
         //Creating Nodes (tilessets)
         //See schematic for meaning of N,NO,NZ... ect
