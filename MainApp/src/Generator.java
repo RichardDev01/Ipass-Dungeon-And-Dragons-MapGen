@@ -1,3 +1,7 @@
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Generator {
@@ -173,10 +177,14 @@ public class Generator {
             check = dm1.run();
             counterOfSimulations++;
         }
-        //if the machine tried to render 10 times and failed, display tekst
+        //if the machine tried to render 10 times and failed, display text
         if (counterOfSimulations ==10){
             System.out.println("couldn't make map, plz try again");
             System.out.println("latest result has been dumped");
         }
+        BufferedImage cropImg =null;
+        try {cropImg = ImageIO.read(new File("result.png"));} catch (IOException e) { e.printStackTrace(); }
+        CropImage c1 = new CropImage();
+        c1.autoCrop(cropImg);
     }
 }
