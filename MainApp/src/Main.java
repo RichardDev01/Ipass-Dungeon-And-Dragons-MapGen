@@ -23,6 +23,15 @@ public class Main {
     private JCheckBox debugCheckBox;
 
     public static void main(String[] args) {
+        Gui();
+
+        //Crop function needs to be done sometime
+        BufferedImage cropImg =null;
+        try {cropImg = ImageIO.read(new File("result.png"));} catch (IOException e) { e.printStackTrace(); }
+
+    }
+
+    public static void Gui(){
         //~~~~ interface code
         JFrame frame = new JFrame("GUIDnDMapGen");
         frame.setContentPane(new Main().panel1);
@@ -33,11 +42,6 @@ public class Main {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         ////~~~////
-
-        //Crop function needs to be done sometime
-        BufferedImage cropImg =null;
-        try {cropImg = ImageIO.read(new File("result.png"));} catch (IOException e) { e.printStackTrace(); }
-
     }
 
     public Main() {
