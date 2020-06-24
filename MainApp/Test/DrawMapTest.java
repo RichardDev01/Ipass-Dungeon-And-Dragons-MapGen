@@ -11,14 +11,24 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class DrawMapTest {
-
+    Node hallwayN;
+    Node hallwayNO;
     Node hallwayNZ;
+    Node hallwayNW;
+    Node hallwayNOZ;
+
     Node hallwayNOW;
+
+    Node hallwayNOZW;
+    Node hallwayNZW;
+    Node hallwayO;
     Node hallwayOZ;
     Node hallwayOW;
     Node hallwayOZW;
-    Node hallwayNW;
-    Node hallwayNOZ;
+    Node hallwayZ;
+    Node hallwayZW;
+    Node hallwayW;
+
 
     Node bigRoom1;
 
@@ -40,14 +50,22 @@ public class DrawMapTest {
     public void Setup(){
 
         String FilePath = "./Resources/default";
-
+        hallwayN = new Node(0,"hallwayN");
+        hallwayNO = new Node(1,"hallwayNO");
         hallwayNZ = new Node(2,"hallwayNZ");
+        hallwayNW = new Node(3,"hallwayNW");
+        hallwayNOZ = new Node(4,"hallwayNOZ");
         hallwayNOW = new Node(5,"hallwayNOW");
+        hallwayNOZW = new Node(6,"hallwayNOZW");
+        hallwayNZW = new Node(7,"hallwayNZW");
+        hallwayO = new Node(8,"hallwayO");
         hallwayOZ = new Node(9,"hallwayOZ");
         hallwayOW = new Node(10,"hallwayOW");
         hallwayOZW = new Node(11,"hallwayOZW");
-        hallwayNW = new Node(12,"hallwayNW");
-        hallwayNOZ = new Node(13,"hallwayNOZ");
+        hallwayZ = new Node(12,"hallwayZ");
+        hallwayZW = new Node(13,"hallwayZW");
+        hallwayW = new Node(14,"hallwayW");
+
 
 
         bigRoom1 = new Node(20,"bigRoom1");
@@ -86,11 +104,6 @@ public class DrawMapTest {
         checkNodes.add(endRoom);
     }
 
-    @Test
-    public void setWayToTheEndRoom() {
-
-
-    }
 
     @Test
     public void addImages() {
@@ -150,12 +163,15 @@ public class DrawMapTest {
         ArrayList<Node> wayToEnd = new ArrayList<>();
 
         wayToEnd.add(startRoom);
-        wayToEnd.add(hallwayNOW);
+        wayToEnd.add(hallwayNOZW);
+        wayToEnd.add(hallwayNZW);
+        wayToEnd.add(bigRoom1);
+        wayToEnd.add(hallwayNOZ);
         wayToEnd.add(hallwayNW);
         wayToEnd.add(bigRoom1);
         wayToEnd.add(endRoom);
 
-        DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath,false);
+        DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath,true);
         dm1.nodesToString();
         dm1.run();
 
@@ -170,7 +186,7 @@ public class DrawMapTest {
         checkNodes.add(startRoom);
         checkNodes.addAll(allNodes);
         checkNodes.add(endRoom);
-        DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath,false);
+        DrawMap dm1 = new DrawMap(checkNodes,checkNodes,true,FilePath,true);
 
         BufferedImage debugImg =null;
         String FilePathToImage = "../Resources/debug/debugpic.png";
