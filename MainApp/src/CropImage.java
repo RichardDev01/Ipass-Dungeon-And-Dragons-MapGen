@@ -9,9 +9,7 @@ import java.io.IOException;
 
 
 public class CropImage {
-    private int width = 8000;                                                             // Image Width
-    private int height = 8000;                                                            // Image Height
-    BufferedImage crop;
+ BufferedImage crop;
 
     public void autoCrop(BufferedImage sourceImage) {
         crop = getCroppedImage(sourceImage,0);
