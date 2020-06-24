@@ -5,7 +5,6 @@ https://stackoverflow.com/questions/20826216/copy-two-bufferedimages-into-one-im
 https://docs.oracle.com/javase/tutorial/2d/images/drawonimage.html
 https://www.javamex.com/tutorials/graphics/bufferedimage.shtml
  */
-//#TODO Mogelijk croppen
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -87,6 +86,7 @@ public class DrawMap {
 
     public void checkPath(){
         int indexOfList =0;
+        int indexCouterTime =1;
         System.out.println(wayToTheEndRoom);                    //List of nodes before
         Node fixNode = new Node(99,"hallwayNOZW");     //fixNode 1
         Node fixNode2 = new Node(100,"hallwayNOZ");    //fixNode 2
@@ -98,12 +98,9 @@ public class DrawMap {
 
             //checking nodes before a bigroom and add node if statement is true
             if(node.name.contains("bigRoom")){
-                if (wayToTheEndRoom.get(indexOfList-1).name.contains("N")&&wayToTheEndRoom.get(indexOfList).name.contains("N")){
-                    wayToTheEndRoomChecked.add(indexOfList,fixNode);
-                    continue;
-                }
-                if (wayToTheEndRoom.get(indexOfList-2).name.contains("hallwayNW")){
-                    wayToTheEndRoomChecked.add(indexOfList-1,fixNode2);
+                if (wayToTheEndRoom.get(indexOfList-3).name.contains("N")&&wayToTheEndRoom.get(indexOfList-2).name.contains("N")&&(!wayToTheEndRoom.get(indexOfList-1).name.contains("O")||!wayToTheEndRoom.get(indexOfList-1).name.contains("Z"))){
+                    wayToTheEndRoomChecked.add(indexOfList-indexCouterTime,fixNode2);
+                    indexCouterTime--;
                     continue;
                 }
             }
@@ -165,68 +162,42 @@ public class DrawMap {
                 String previous = images.get(index-2);
                 try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
 
-                //Place bigroom ro the right ->
-                if (previous.contains("O")&& collisionCheck(x,y-biLast.getHeight(),bi,Color.RED)== false){
-                    if (collisionCheck(x,y-biLast.getHeight(),bi,Color.RED)== true){
-                        overLappingCheck = true;
-                    }
+                //Place bigroom ro the right -> ✔
+                if (previous.contains("O")&& !collisionCheck(x,y-biLast.getHeight(),bi,Color.RED)){
                     g.drawImage(bi, x, y-biLast.getHeight(), null);
                     if(debugPixels == true){debugPixels(x, y-biLast.getHeight(), bi);}
-
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-
                     x += bi.getWidth();
                     y -= biLast.getHeight();
                     continue;
                 }
 
                 //place bigroom ↓
-                else if (previous.contains("Z")){
-                    if (collisionCheck(x-biLast.getWidth()*2,y+biLast.getHeight(),bi,Color.RED)== true){
-                        overLappingCheck = true;
-                    }
-
+                else if (previous.contains("Z")&& !collisionCheck(x-biLast.getWidth()*2,y+biLast.getHeight(),bi,Color.RED)){
                     g.drawImage(bi, x-biLast.getWidth()*2, y+biLast.getHeight(), null);
-
                     if(debugPixels == true){debugPixels(x-biLast.getWidth()*2, y+biLast.getHeight(), bi);}
-
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-
                     //x = x;
                     y += biLast.getHeight();
                     continue;
                 }
-
                 //place bigroom ↑
-                //else if (previous.contains("N")&& colisionCheck(x-biLast.getWidth()*2,y-biLast.getHeight()*2,bi)== false){
-                else if (previous.contains("N")){
-                    if (collisionCheck(x-biLast.getWidth()*2,y-biLast.getHeight()*2,bi,Color.RED)== true){
-                        overLappingCheck = true;
-                    }
+                else if (previous.contains("N")&& !collisionCheck(x-biLast.getWidth()*2,y-biLast.getHeight()*2,bi,Color.RED)){
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-bi.getWidth()*2, y-biLast.getHeight()*2, null);
+                    g.drawImage(bi, x-biLast.getWidth()*2, y-biLast.getHeight()*2, null);
                     if(debugPixels == true){debugPixels(x-biLast.getWidth()*2, y-biLast.getHeight()*2, bi);}
-
                     //x = x;
                     y -= bi.getHeight();
                     continue;
                 }
 
                 // place bigroom <-
-                else if (previous.contains("W")){
-                    //Buggy als de pest (Dev note)
-                    if (collisionCheck(x-(bi.getWidth()+biLast.getWidth())-20,y+20,bi,Color.RED)== true){
-                        falsePositiveCheck = true;
-                        System.out.println("check Bigrooms");
-                    }
-
+                else if (previous.contains("W")&& !collisionCheck(x-bi.getWidth()-biLast.getWidth(),y,bi,Color.RED)){
                     creatEndsBigRooms(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth()-biLast.getWidth(), y, null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth()-biLast.getWidth(), y, bi);}
-
-                    x -= bi.getWidth();
+                    x -= bi.getWidth()-biLast.getWidth();
                     y += biLast.getHeight();
-
                     continue;
                 }
 
@@ -242,66 +213,8 @@ public class DrawMap {
                 String previous = images.get(index-2);
                 try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
 
-                //place specific tile ↑ from previous
-                if(image.contains("hallwayNOZW")&&previous.contains("NZW")){
-                    creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-biLast.getWidth(), y-biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-biLast.getWidth(), y-biLast.getHeight(), bi);}
-                    //x = x;
-                    y -= biLast.getHeight();
-                    continue;
-                }
-
-                //place specific tile ↑ from previous
-                if(image.contains("hallwayNOZW")&&previous.contains("NZ")){
-
-                    creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-biLast.getWidth(), y-biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-biLast.getWidth(), y-biLast.getHeight(), bi);}
-                    //x += bi.getWidth();
-                    y -= biLast.getHeight();
-                    continue;
-                }
-
-                //place specific tile → from previous
-                if(image.contains("hallwayNOZW")&&previous.contains("O")){
-                    creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x, y, null);
-                    if(debugPixels == true){debugPixels(x, y, bi);}
-                    x += bi.getWidth();
-                    //y = y;
-                    continue;
-                }
-
-                //place specific tile ← from previous
-                if(image.contains("hallwayNOZW")&&previous.contains("ZW")){
-                    g.drawImage(bi, x-bi.getWidth()*2, y, null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth()*2, y, bi);}
-                    x -= biLast.getWidth()*3;
-                    y -= bi.getHeight();
-                    continue;
-                }
-
-                //place specific tile ↓ from previous
-                if(image.contains("hallwayNOZW")&&previous.contains("Z")){
-                    g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
-                    //x = x;
-                    y += bi.getHeight();
-                    continue;
-                }
-
-                //place specific tile ← from previous
-                if(image.contains("hallwayNOZW")&&previous.contains("NW")){
-                    g.drawImage(bi, x-bi.getWidth()*2, y+biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth()*2, y+biLast.getHeight(), bi);}
-                    x -= biLast.getWidth()*2;
-                    y += bi.getHeight()*2;
-                    continue;
-                }
-
                 //place specific tile after bigroom → from previous
-                if (previous.contains("bigRoom") && image.contains("hallwayNOZW")){
+                if (previous.contains("bigRoom") && image.contains("W") && !collisionCheck(x,y,bi,Color.pink)){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x, y, null);
                     if(debugPixels == true){debugPixels(x, y, bi);}
@@ -311,7 +224,7 @@ public class DrawMap {
                 }
 
                 //place specific tile after bigroom ↑ from previous
-                if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&& collisionCheck(x-bi.getWidth(),y,bi,Color.pink)== false){
+                if (previous.contains("bigRoom") && image.contains("Z")&& collisionCheck(x-bi.getWidth(),y-bi.getHeight(),bi,Color.pink)== false){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth(), y-bi.getHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth(), y-bi.getHeight(), bi);}
@@ -320,52 +233,10 @@ public class DrawMap {
                     continue;
                 }
 
-                //place specific tile after bigroom ↑ from previous
-                if (previous.contains("bigRoom") && image.contains("hallwayOZ") && (image.contains("W")==false)){
-                    g.drawImage(bi, x-bi.getWidth(), y-bi.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y-bi.getHeight(), bi);}
-                    x += bi.getWidth();
-                    y -= bi.getHeight()*2;
-                    continue;
-                }
-
                 //place specific tile after bigroom ↓ from previous
-                if (previous.contains("bigRoom") && image.contains("hallwayNOZ")&&(image.contains("W")==false)){
+                if (previous.contains("bigRoom") && image.contains("N")&& collisionCheck(x-bi.getWidth(),y+biLast.getHeight(),bi,Color.pink)== false){
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
-                    //x = x;
-                    y += biLast.getHeight();
-                    continue;
-                }
-
-                //place specific tile after bigroom ↓ from previous
-                if (previous.contains("bigRoom") && image.contains("hallwayNO")&&(image.contains("W")==false) &&(image.contains("Z")==false)){
-                    creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-bi.getWidth(), y+biLast.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
-                    //x = x;
-                    y += biLast.getHeight();
-                    continue;
-                }
-
-                //place specific tile after bigroom → from previous
-                if(previous.contains("bigRoom") && image.contains("W")){
-                    if (collisionCheck(x,y+50,bi,Color.pink)== true){
-                        System.out.println("error?");
-                    }
-                    creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x, y, null);
-                    if(debugPixels == true){debugPixels(x, y, bi);}
-                    x += bi.getWidth();
-                    //y = y
-                    continue;
-                }
-
-                //place specific tile after bigroom ↓ from previous
-                if(previous.contains("bigRoom") && image.contains("N")&& collisionCheck(x-bi.getWidth()+10,y+biLast.getHeight()+10,bi,Color.pink)== false){
-                    creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-bi.getTileWidth(), y+biLast.getTileHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth(), y+biLast.getHeight(), bi);}
                     //x = x;
                     y += biLast.getHeight();
@@ -377,16 +248,6 @@ public class DrawMap {
                     creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                 }
 
-                //place specific tile ↓ from previous
-                if((image.contains("NZW")) && previous.contains("NOZW")){
-                    creatEndsHallways(x-bi.getWidth(),y+bi.getHeight(),biEndN,biEndO,biEndZ,biEndW,biLast,previous);
-                    g.drawImage(bi, x-bi.getWidth(), y+bi.getHeight(), null);
-                    if(debugPixels == true){debugPixels(x-bi.getWidth(), y+bi.getHeight(), bi);}
-                    //x = x;
-                    y += bi.getHeight();
-                    continue;
-                }
-
                 //place specific tile → from previous
                 if(image.contains("W")&&previous.contains("O")&& collisionCheck(x,y,bi,Color.yellow)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
@@ -394,12 +255,11 @@ public class DrawMap {
                     if(debugPixels == true){debugPixels(x, y, bi);}
                     x += bi.getWidth();
                     //y = y;
-                    System.out.println("i'm here");
                     continue;
                 }
 
                 //place specific tile ↓ from previous
-                if((image.contains("N")) && previous.contains("Z")){
+                if((image.contains("N")) && previous.contains("Z")&& collisionCheck(x-bi.getWidth(),y+bi.getHeight(),bi,Color.yellow)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth(), y+bi.getHeight(), null);
                     if(debugPixels == true){debugPixels(x-bi.getWidth(), y+bi.getHeight(), bi);}
@@ -409,7 +269,7 @@ public class DrawMap {
                 }
 
                 //place specific tile ← from previous
-                if(image.contains("O")&&previous.contains("W")&& collisionCheck(x-bi.getWidth()*2,y+bi.getHeight(),bi,Color.yellow)== false){
+                if(image.contains("O")&&previous.contains("W")&& collisionCheck(x-bi.getWidth()*2,y,bi,Color.yellow)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth()*2, y, null);
                     if(debugPixels == true){debugPixels(x-bi.getTileWidth()*2, y, bi);}
