@@ -76,7 +76,7 @@ public class RandomMapGen {
                 }
 
                 //if the minimum of bigrooms has not been reached but the newNode equels the end, get another node
-                if (minBigRooms >0 && newNode == endNode){
+                while (minBigRooms >0 && newNode.name.contains("endRoom")){
                    int connectedNodeslist = new Random().nextInt(currentNode.connectedNodes.size());
                    newNode = currentNode.connectedNodes.get(connectedNodeslist).n;
                 }
