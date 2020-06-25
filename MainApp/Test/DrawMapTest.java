@@ -1,13 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-
 import static org.junit.Assert.*;
 
 public class DrawMapTest {
@@ -16,9 +13,7 @@ public class DrawMapTest {
     Node hallwayNZ;
     Node hallwayNW;
     Node hallwayNOZ;
-
     Node hallwayNOW;
-
     Node hallwayNOZW;
     Node hallwayNZW;
     Node hallwayO;
@@ -28,7 +23,6 @@ public class DrawMapTest {
     Node hallwayZ;
     Node hallwayZW;
     Node hallwayW;
-
 
     Node bigRoom1;
 
@@ -176,9 +170,6 @@ public class DrawMapTest {
         DrawMap dm1 = new DrawMap(wayToEnd,checkNodes,true,FilePath,true);
         dm1.nodesToString();
         dm1.run();
-
-        //Check of result == stock image
-
     }
 
     @Test
