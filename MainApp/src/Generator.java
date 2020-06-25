@@ -182,6 +182,8 @@ public class Generator {
             System.out.println("couldn't make map, plz try again");
             System.out.println("latest result has been dumped");
         }
+
+        //Cropping the image
         BufferedImage cropImg =null;
         try {cropImg = ImageIO.read(new File("result.png"));} catch (IOException e) { e.printStackTrace(); }
         CropImage c1 = new CropImage();
