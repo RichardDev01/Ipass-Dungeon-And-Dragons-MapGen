@@ -9,8 +9,8 @@ public class RandomMapGen {
     private int randomPath;                                         //int range from 0-1 for 50% change to go A or B
     private int maxBigRooms;                                        //int for max big rooms
     private int minBigRooms;                                        //int for min big rooms
-    private int hallwayCounter = 0;
-    private int hallwaysForBigRoom;
+    private int hallwayCounter = 0;                                 //int for counting hallways
+    private int hallwaysForBigRoom;                                 //int to count towards for hallways
 
     public RandomMapGen(List<Node> nodes, int maxBigRooms, int minBigRooms,int hallwaysForBigRoom) {
         this.nodes = nodes;
@@ -101,7 +101,7 @@ public class RandomMapGen {
                 System.out.println("Maximum pathlenth is reached"); // Debug
             }
         }
-        //Just incase the machine ends early but can add an endRoom, add it
+        //Just in case the machine ends early but can add an endRoom, add it
         if (pathTakenThroughFSM.get(pathTakenThroughFSM.size()-1)!= endNode){
             pathTakenThroughFSM.add(endNode);
         }
