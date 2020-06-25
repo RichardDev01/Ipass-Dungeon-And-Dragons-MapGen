@@ -112,7 +112,7 @@ public class DrawMap {
     public boolean run() {
 
         //Starting coordinates of placing tiles
-        int x =600;
+        int x =1000;
         int y =4000;
         int index = 0;
 
@@ -242,6 +242,15 @@ public class DrawMap {
                     y += biLast.getHeight();
                     continue;
                 }
+                //place specific tile after bigroom ← from previous
+                if (previous.contains("bigRoom") && image.contains("O") && !collisionCheck(x-biLast.getWidth()-bi.getWidth(),y,bi,Color.pink)){
+                    creatEndsBigRoomsself(x,y-bi.getHeight(),biEndN,biEndO,biEndZ,biEndW,biLast,previous);
+                    g.drawImage(bi, x-biLast.getWidth()-bi.getWidth(), y, null);
+                    if(debugPixels == true){debugPixels(x-biLast.getWidth()-bi.getWidth(), y, bi);}
+                    x -= biLast.getWidth()-bi.getWidth()+bi.getWidth();
+                    //y = y ;
+                    continue;
+                }
 
                 //if code somehow doesn't make endrooms after bigroom, execute this code
                 if (previous.contains("bigRoom")){
@@ -300,6 +309,7 @@ public class DrawMap {
                 try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
                 creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                 g.drawImage(bi, x-biLast.getWidth()/2-bi.getWidth()/2, y+biLast.getHeight()/2-bi.getHeight()/2, null);
+                collisionCheck(x-biLast.getWidth()/2-bi.getWidth()/2,y+biLast.getHeight()/2-bi.getHeight()/2,bi,Color.yellow);
                 continue;
             }
 
@@ -374,22 +384,26 @@ public class DrawMap {
     previous =/ unused
      */
     private void creatEndsBigRoomsself(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
-            if (checkFreeSpace(x-biLast.getWidth()/2+10,y-biLast.getHeight()/2+10,result)==true){
-                g.drawImage(biEndZ, x-biLast.getWidth()/2, y-biLast.getHeight()/2, null);
-                if(debugPixels == true){debugPixels(x-biLast.getWidth()/2+10, y-biLast.getHeight()/2+10, biEndZ);}
-            }
-            if (checkFreeSpace(x+10,y+10,result)==true){
-                g.drawImage(biEndW, x, y, null);
-                if(debugPixels == true){debugPixels(x, y, biEndW);}
-            }
-            if (checkFreeSpace(x-biLast.getWidth()-biEndO.getWidth()+10,y+biLast.getHeight()/2,result)==true){
-                g.drawImage(biEndO, x-biLast.getWidth()-biEndO.getWidth(), y+biLast.getHeight()/2, null);
-                if(debugPixels == true){debugPixels(x-biLast.getWidth()-biEndO.getWidth(), y+biLast.getHeight()/2, biEndO);}
-            }
-            if (checkFreeSpace(x-biLast.getWidth()/2,y+biLast.getHeight(),result)==true){
-                g.drawImage(biEndN, x-biLast.getWidth()/2, y+biLast.getHeight(), null);
-                if(debugPixels == true){debugPixels(x-biLast.getWidth()/2, y+biLast.getHeight(), biEndO);}
-            }
+        if (!collisionCheck(x-biLast.getWidth()/2-biEndZ.getWidth()/2,y-biLast.getHeight()/2-biEndZ.getHeight()/2,biLast,Color.orange)){
+        //if (checkFreeSpace(x-biLast.getWidth()/2+10,y-biLast.getHeight()/2+10,result)==true){
+            g.drawImage(biEndZ, x-biLast.getWidth()/2, y-biLast.getHeight()/2, null);
+            if(debugPixels == true){debugPixels(x-biLast.getWidth()/2, y-biLast.getHeight()/2, biEndZ);}
+        }
+        if (!collisionCheck(x-biEndW.getWidth()/2,y-biEndW.getHeight()/2,biLast,Color.orange)){
+        //if (checkFreeSpace(x+10,y+10,result)==true){
+            g.drawImage(biEndW, x, y, null);
+            if(debugPixels == true){debugPixels(x, y, biEndW);}
+        }
+        if (!collisionCheck(x-biLast.getWidth()-biEndO.getWidth()-biEndO.getWidth()/2,y+biLast.getHeight()/2-biEndO.getHeight()/2,biLast,Color.orange)){
+        //if (checkFreeSpace(x-biLast.getWidth()-biEndO.getWidth()+10,y+biLast.getHeight()/2,result)==true){
+            g.drawImage(biEndO, x-biLast.getWidth()-biEndO.getWidth(), y+biLast.getHeight()/2, null);
+            if(debugPixels == true){debugPixels(x-biLast.getWidth()-biEndO.getWidth(), y+biLast.getHeight()/2, biEndO);}
+        }
+        if (!collisionCheck(x-biLast.getWidth()/2-biEndN.getWidth()/2,y+biLast.getHeight()-biEndN.getHeight()/2,biLast,Color.green)){
+        //if (checkFreeSpace(x-biLast.getWidth()/2,y+biLast.getHeight(),result)==true){
+            g.drawImage(biEndN, x-biLast.getWidth()/2, y+biLast.getHeight(), null);
+            if(debugPixels == true){debugPixels(x-biLast.getWidth()/2, y+biLast.getHeight(), biEndO);}
+        }
     }
 
     /*
