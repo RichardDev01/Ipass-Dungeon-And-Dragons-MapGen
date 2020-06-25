@@ -163,11 +163,12 @@ public class DrawMapTest {
         ArrayList<Node> wayToEnd = new ArrayList<>();
 
         wayToEnd.add(startRoom);
-        wayToEnd.add(hallwayNOZW);
-        wayToEnd.add(hallwayNZW);
-        wayToEnd.add(bigRoom1);
-        wayToEnd.add(hallwayNOZ);
+        wayToEnd.add(hallwayOW);
+        wayToEnd.add(hallwayZW);
         wayToEnd.add(hallwayNW);
+        wayToEnd.add(bigRoom1);
+        wayToEnd.add(hallwayOZ);
+        wayToEnd.add(hallwayNZ);
         wayToEnd.add(bigRoom1);
         wayToEnd.add(endRoom);
 
