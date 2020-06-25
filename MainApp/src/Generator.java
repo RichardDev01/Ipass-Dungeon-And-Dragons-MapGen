@@ -91,7 +91,7 @@ public class Generator {
         int  chanceForBigRoom = (aantalBigroom*100)/aantalHalways;
 
         //Calculating chance for Hallway
-        int chanceForHallway = 100-chanceForBigRoom;
+        int chanceForHallway = Math.abs(100-chanceForBigRoom);
 
         //Creating hallway transisiton list
         int counterHallway =0;
