@@ -83,6 +83,9 @@ public class DrawMap {
         System.out.println(images); //Debug printout, usefull
     }
 
+    /*
+    This function does a rough check if a certain patern is present that does not work and fixes it before the drawing fase
+     */
     public void checkPath(){
         int indexOfList =0;
         int indexCouterTime =1;
@@ -161,7 +164,7 @@ public class DrawMap {
                 String previous = images.get(index-2);
                 try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
 
-                //Place bigroom ro the right -> ✔
+                //Place bigroom -> ✔
                 if (previous.contains("O")&& !collisionCheck(x,y-biLast.getHeight(),bi,Color.RED)){
                     g.drawImage(bi, x, y-biLast.getHeight(), null);
                     if(debugPixels == true){debugPixels(x, y-biLast.getHeight(), bi);}
@@ -297,7 +300,7 @@ public class DrawMap {
                     continue;
                 }
 
-                System.out.println("i dont fit me stupid tile ಠ_ಠ");
+                System.out.println("i don't fit me stupid tile ಠ_ಠ");
                 overLappingCheck = true;
                 index --;
             }
@@ -308,7 +311,7 @@ public class DrawMap {
                 try { biLast = ImageIO.read(new File(previous)); } catch (IOException e) { e.printStackTrace(); }
                 creatEndsBigRoomsself(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                 g.drawImage(bi, x-biLast.getWidth()/2-bi.getWidth()/2, y+biLast.getHeight()/2-bi.getHeight()/2, null);
-                collisionCheck(x-biLast.getWidth()/2-bi.getWidth()/2,y+biLast.getHeight()/2-bi.getHeight()/2,bi,Color.yellow);
+                collisionCheck(x-biLast.getWidth()/2-bi.getWidth()/2,y+biLast.getHeight()/2-bi.getHeight()/2,bi,Color.orange);
                 continue;
             }
 
@@ -334,6 +337,14 @@ public class DrawMap {
     bi  = The image that you want to draw or collision check with
      */
     private  boolean collisionCheck(int x, int y , BufferedImage bi, Color debugcolor){
+        /*
+        drawing extra detailed debug pixels above the currently drawing map
+        startroom + 2nd tile    = Color.BLUE
+        bigroom                 = Color.RED
+        tile after bigroom      = Color.pink
+        hallway after hallway   = Color.yellow
+        endroom                 = Color.orange
+         */
         if(debugPixels) {
             int debugy = y - 2000;
             int debugx = x;
@@ -373,8 +384,8 @@ public class DrawMap {
 
     /*
     Use this function after the tile is placed after the bigroom
-    x = topright of cordinate of bigroom
-    y = topright of cordinate of bigroom
+    x = top right of coordinate of bigroom
+    y = top right of coordinate of bigroom
     biEndN = Dead end North
     biEndO = Dead end East
     biEndZ = Dead end South
@@ -384,22 +395,18 @@ public class DrawMap {
      */
     private void creatEndsBigRoomsself(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
         if (!collisionCheck(x-biLast.getWidth()/2-biEndZ.getWidth()/2,y-biLast.getHeight()/2-biEndZ.getHeight()/2,biLast,Color.orange)){
-        //if (checkFreeSpace(x-biLast.getWidth()/2+10,y-biLast.getHeight()/2+10,result)==true){
             g.drawImage(biEndZ, x-biLast.getWidth()/2, y-biLast.getHeight()/2, null);
             if(debugPixels == true){debugPixels(x-biLast.getWidth()/2, y-biLast.getHeight()/2, biEndZ);}
         }
         if (!collisionCheck(x-biEndW.getWidth()/2,y-biEndW.getHeight()/2,biLast,Color.orange)){
-        //if (checkFreeSpace(x+10,y+10,result)==true){
             g.drawImage(biEndW, x, y, null);
             if(debugPixels == true){debugPixels(x, y, biEndW);}
         }
         if (!collisionCheck(x-biLast.getWidth()-biEndO.getWidth()-biEndO.getWidth()/2,y+biLast.getHeight()/2-biEndO.getHeight()/2,biLast,Color.orange)){
-        //if (checkFreeSpace(x-biLast.getWidth()-biEndO.getWidth()+10,y+biLast.getHeight()/2,result)==true){
             g.drawImage(biEndO, x-biLast.getWidth()-biEndO.getWidth(), y+biLast.getHeight()/2, null);
             if(debugPixels == true){debugPixels(x-biLast.getWidth()-biEndO.getWidth(), y+biLast.getHeight()/2, biEndO);}
         }
         if (!collisionCheck(x-biLast.getWidth()/2-biEndN.getWidth()/2,y+biLast.getHeight()-biEndN.getHeight()/2,biLast,Color.green)){
-        //if (checkFreeSpace(x-biLast.getWidth()/2,y+biLast.getHeight(),result)==true){
             g.drawImage(biEndN, x-biLast.getWidth()/2, y+biLast.getHeight(), null);
             if(debugPixels == true){debugPixels(x-biLast.getWidth()/2, y+biLast.getHeight(), biEndO);}
         }
@@ -407,8 +414,8 @@ public class DrawMap {
 
     /*
     Use this function after placing a bigroom to make dead ends for the tile before the bigroom
-    x = topright of cordinate of last tile
-    y = topright of cordinate of last tile
+    x = top right of coordinate of last tile
+    y = top right of coordinate of last tile
     biEndN = Dead end North
     biEndO = Dead end East
     biEndZ = Dead end South
@@ -419,28 +426,24 @@ public class DrawMap {
     private void creatEndsBigRooms(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
         if (previous.contains("N")){
             if(!collisionCheck(x-biLast.getWidth(),y-biLast.getHeight(),biLast,Color.LIGHT_GRAY)){
-            //if (checkFreeSpace(x-biLast.getWidth(),y-biLast.getHeight(),result)==true){
                 g.drawImage(biEndZ, x-biLast.getWidth(), y-biLast.getHeight(), null);
                 if(debugPixels == true){debugPixels(x-biLast.getWidth(), y-biLast.getHeight(), biEndZ);}
             }
         }
         if (previous.contains("O")){
             if(!collisionCheck(x,y,biLast,Color.LIGHT_GRAY)){
-            //if (checkFreeSpace(x,y,result)==true){
                 g.drawImage(biEndW, x, y, null);
                 if(debugPixels == true){debugPixels(x, y, biEndW);}
             }
         }
         if (previous.contains("W")){
             if(!collisionCheck(x-biLast.getWidth()*2,y,biLast,Color.LIGHT_GRAY)){
-            //if (checkFreeSpace(x-biLast.getWidth()*2+10,y+10,result)==true){
                 g.drawImage(biEndO, x-biLast.getWidth()*2, y, null);
                 if(debugPixels == true){debugPixels(x-biLast.getWidth()*2, y, biEndO);}
             }
         }
         if (previous.contains("Z")){
             if(!collisionCheck(x-biLast.getWidth(),y+biLast.getHeight(),biLast,Color.LIGHT_GRAY)){
-            //if (checkFreeSpace(x-biLast.getWidth()+10,y+biLast.getHeight()+10,result)==true){
                 g.drawImage(biEndN, x-biLast.getWidth(), y+biLast.getHeight(), null);
                 if(debugPixels == true){debugPixels(x-biLast.getWidth(), y+biLast.getHeight(), biEndO);}
             }
@@ -449,8 +452,8 @@ public class DrawMap {
 
     /*
     Use this function after placing a hallway tile to make dead ends for the tile before hand
-    x = topright of cordinate of last tile
-    y = topright of cordinate of last tile
+    x = top right of coordinate of last tile
+    y = top right of coordinate of last tile
     biEndN = Dead end North
     biEndO = Dead end East
     biEndZ = Dead end South
@@ -461,28 +464,24 @@ public class DrawMap {
     private void creatEndsHallways(int x, int y, BufferedImage biEndN, BufferedImage biEndO, BufferedImage biEndZ, BufferedImage biEndW, BufferedImage biLast, String previous){
         if (previous.contains("N")){
             if(!collisionCheck(x-biLast.getWidth(),y-biLast.getHeight(),biLast,Color.white)){
-            //if (checkFreeSpace(x-biLast.getWidth(),y-biLast.getHeight(),result)==true){
                 g.drawImage(biEndZ, x-biLast.getWidth(), y-biLast.getHeight(), null);
                 if(debugPixels == true){debugPixels(x-biLast.getWidth(), y-biLast.getHeight(), biEndZ);}
             }
         }
         if (previous.contains("O")){
             if(!collisionCheck(x,y,biLast,Color.white)){
-            //if (checkFreeSpace(x,y,result)==true){
                 g.drawImage(biEndW, x, y, null);
                 if(debugPixels == true){debugPixels(x, y, biEndW);}
             }
         }
         if (previous.contains("W")){
             if(!collisionCheck(x-biLast.getWidth()*2,y,biLast,Color.white)){
-            //if (checkFreeSpace(x-biLast.getWidth()*2,y,result)==true){
                 g.drawImage(biEndO, x-biLast.getWidth()*2, y, null);
                 if(debugPixels == true){debugPixels(x-biLast.getWidth()*2, y, biEndO);}
             }
         }
         if (previous.contains("Z")){
             if(!collisionCheck(x-biLast.getWidth(),y+biLast.getHeight(),biLast,Color.white)){
-            //if (checkFreeSpace(x-biLast.getWidth()+10,y+biLast.getHeight()+10,result)==true){
                 g.drawImage(biEndN, x-biLast.getWidth(), y+biLast.getHeight(), null);
                 if(debugPixels == true){debugPixels(x-biLast.getWidth(), y+biLast.getHeight(), biEndN);}
             }
