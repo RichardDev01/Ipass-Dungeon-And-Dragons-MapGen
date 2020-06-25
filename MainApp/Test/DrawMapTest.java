@@ -154,6 +154,7 @@ public class DrawMapTest {
 
     @Test
     public void run() {
+        //Debug run function for manual checking a path, useful for debugging
         FilePath = "../Resources/default";
         ArrayList<Node> checkNodes = new ArrayList<>();
         checkNodes.add(startRoom);
@@ -182,6 +183,7 @@ public class DrawMapTest {
 
     @Test
     public void checkFreeSpace() {
+        //checks 4 corners of an image compared to the top left pixel RGB value
         FilePath = "../Resources/Default";
         ArrayList<Node> checkNodes = new ArrayList<>();
         checkNodes.add(startRoom);

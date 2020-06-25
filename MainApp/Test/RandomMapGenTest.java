@@ -74,7 +74,7 @@ public class RandomMapGenTest {
 
     @Test
     public void run() {
-        //Make a specific map, no randomtransitions
+        //Make a specific map, no random transitions
         Node hallwayNZ = new Node(2,"hallwayNZ");
         Node hallwayNOW = new Node(5,"hallwayNOW");
         Node hallwayOZ = new Node(9,"hallwayOZ");
@@ -125,7 +125,6 @@ public class RandomMapGenTest {
     @Test
     public void minimumBigRooms(){
         //This test is made for checking if the minimum count and maximum of bigRooms are there in normal generator circumstances
-
         //Creating array list for nodes and transistions
         ArrayList<Node> hallwaylist = new ArrayList<>();
         ArrayList<Node> hallwayEndlist = new ArrayList<>();

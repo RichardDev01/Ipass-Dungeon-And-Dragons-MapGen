@@ -30,7 +30,6 @@ public class DrawMap {
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);  // Creating an buffered to write to
     Graphics g = result.getGraphics();                                                    // Creating a graphics class to write with to the buffered image
 
-
     /*
     wayToTheEndRoom =Array of all nodes to end
     allNodes        =Array of all nodes
