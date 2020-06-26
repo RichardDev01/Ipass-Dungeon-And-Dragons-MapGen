@@ -244,7 +244,7 @@ public class DrawMap {
                     y += biLast.getHeight();
                     continue;
                 }
-                //place specific tile after bigroom ← from previous
+                //place specific tile after bigroom <- from previous
                 if (previous.contains("bigRoom") && image.contains("O") && !collisionCheck(x-biLast.getWidth()-bi.getWidth(),y,bi,Color.pink)){
                     creatEndsBigRoomsself(x,y-bi.getHeight(),biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-biLast.getWidth()-bi.getWidth(), y, null);
@@ -279,7 +279,7 @@ public class DrawMap {
                     continue;
                 }
 
-                //place specific tile ← from previous
+                //place specific tile <- from previous
                 if(image.contains("O")&&previous.contains("W")&& collisionCheck(x-bi.getWidth()*2,y,bi,Color.yellow)== false){
                     creatEndsHallways(x,y,biEndN,biEndO,biEndZ,biEndW,biLast,previous);
                     g.drawImage(bi, x-bi.getWidth()*2, y, null);
