@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="DnDMapGen">
+    <output-path>$PROJECT_DIR$/out/artifacts/DnDMapGen</output-path>
+    <root id="archive" name="DnDMapGen.jar">
+      <element id="module-output" name="MainApp" />
+    </root>
+  </artifact>
+</component>
